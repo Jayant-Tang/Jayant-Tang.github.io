@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-13T11:49:20+08:00",
+  "generatedAt": "2026-07-13T15:03:21+08:00",
   "posts": {
     "source/_posts/Matter OTA固件升级.md": {
       "lastPublishedAt": "2026-07-06T18:20:52+08:00",
@@ -191,10 +191,10 @@
       "url": "https://www.cnblogs.com/jayant97/articles/17794804.html"
     },
     "source/_posts/搭建自己的静态博客并自动部署.md": {
-      "lastPublishedAt": "2026-07-06T18:39:20+08:00",
+      "lastPublishedAt": "2026-07-13T15:03:21+08:00",
       "postId": "21180790",
       "postType": "Article",
-      "sourceHash": "sha256:3708733f45f6c701c6449761c188408d7966b3dc32a14a9820a954869de54a82",
+      "sourceHash": "sha256:e174aff86866e95c5454b9b4dffe32edcbe19eb6cdd1715bce8ca6c116deb19b",
       "status": "synced",
       "title": "搭建自己的静态博客并自动部署",
       "url": "https://www.cnblogs.com/jayant97/articles/21180790"
