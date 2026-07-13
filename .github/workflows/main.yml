@@ -28,6 +28,8 @@ jobs:
   build:
     name: Build on node ${{ matrix.node_version }} and ${{ matrix.os }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     outputs:
       cnblogs_action: ${{ steps.cnblogs_action.outputs.action }}
       cnblogs_count: ${{ steps.cnblogs_action.outputs.count }}
