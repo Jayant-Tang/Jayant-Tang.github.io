@@ -1,0 +1,116 @@
+<%
+const leftSidebar = theme.left_sidebar || {};
+const categoryNav = leftSidebar.category_nav || {};
+const notice = leftSidebar.notice || {};
+const tools = leftSidebar.tools || {};
+const toolItems = Array.isArray(tools.items) ? tools.items.filter(item => item && item.name && item.link) : [];
+
+const showToc = theme.post.toc.enable && theme.post.toc.placement === 'left' && page.toc !== false;
+const categories = page.categories ? page.categories.data.filter(cat => cat && cat.length) : [];
+const tags = page.tags ? page.tags.data.filter(tag => tag && tag.length) : [];
+
+const showCategoryNav = categoryNav.enable !== false && (categories.length > 0 || tags.length > 0);
+const noticeEnabled = notice.enable !== false && (notice.avatar_url || notice.avatar_link || notice.text);
+const toolsEnabled = tools.enable !== false && toolItems.length > 0;
+
+function renderCategoryTree(nodes, parentId, depth) {
+  const currentNodes = nodes.filter(cat => {
+    if (parentId === null) {
+      return !cat.parent || !nodes.some(item => item._id === cat.parent);
+    }
+    return cat.parent === parentId;
+  });
+
+  if (!currentNodes.length) {
+    return;
+  }
+
+  currentNodes.forEach(function(cat) {
+%>
+    <div class="custom-side-tree-node custom-side-tree-depth-<%= depth %>">
+      <a class="custom-side-tree-link" href="<%- url_for(cat.path) %>"><%= cat.name %></a>
+    </div>
+    <% renderCategoryTree(nodes, cat._id, depth + 1); %>
+<%
+  });
+}
+%>
+
+<% if (showToc || showCategoryNav || noticeEnabled || toolsEnabled) { %>
+  <aside class="sidebar custom-post-sidebar" style="padding-left: 2rem; margin-right: -1rem">
+    <% if (noticeEnabled) { %>
+      <section class="custom-side-card">
+        <p class="custom-side-card-title"><%= notice.title || '公告' %></p>
+        <div class="custom-side-card-body custom-side-notice">
+          <% if (notice.avatar_url) { %>
+            <% const avatar = `<img src="${notice.avatar_url}" alt="GitHub Avatar" class="custom-side-avatar">`; %>
+            <% if (notice.avatar_link) { %>
+              <a href="<%- notice.avatar_link %>" target="_blank" rel="nofollow noopener" aria-label="GitHub">
+                <%- avatar %>
+              </a>
+            <% } else { %>
+              <%- avatar %>
+            <% } %>
+          <% } %>
+          <% if (notice.username) { %>
+            <p class="custom-side-username"><%= notice.username %></p>
+          <% } %>
+          <% if (notice.text) { %>
+            <p class="custom-side-note-text"><%= notice.text %></p>
+          <% } %>
+        </div>
+      </section>
+    <% } %>
+
+    <% if (showCategoryNav) { %>
+      <section class="custom-side-card">
+        <p class="custom-side-card-title"><%= categoryNav.title || '分类导航' %></p>
+        <div class="custom-side-card-body">
+          <% if (categories.length > 0) { %>
+            <div class="custom-side-group">
+              <p class="custom-side-group-title"><%= categoryNav.category_title || '分类' %></p>
+              <div class="custom-side-tree">
+                <% renderCategoryTree(categories, null, 0); %>
+              </div>
+            </div>
+          <% } %>
+
+          <% if (tags.length > 0) { %>
+            <div class="custom-side-group">
+              <p class="custom-side-group-title"><%= categoryNav.tag_title || '标签' %></p>
+              <div class="custom-side-chip-list">
+                <% tags.forEach(function(tag) { %>
+                  <a class="custom-side-chip" href="<%- url_for(tag.path) %>"><%= tag.name %></a>
+                <% }) %>
+              </div>
+            </div>
+          <% } %>
+        </div>
+      </section>
+    <% } %>
+
+    <% if (toolsEnabled) { %>
+      <section class="custom-side-card">
+        <p class="custom-side-card-title"><%= tools.title || '实用工具' %></p>
+        <div class="custom-side-card-body">
+          <ul class="custom-side-links">
+            <% toolItems.forEach(function(item) { %>
+              <li class="custom-side-link-item">
+                <a href="<%- item.link %>" target="_blank" rel="nofollow noopener"><%= item.name %></a>
+                <% if (item.description) { %>
+                  <div class="custom-side-link-desc"><%= item.description %></div>
+                <% } %>
+              </li>
+            <% }) %>
+          </ul>
+        </div>
+      </section>
+    <% } %>
+
+    <% if (showToc) { %>
+      <section class="custom-side-card">
+        <%- partial('_partials/post/toc') %>
+      </section>
+    <% } %>
+  </aside>
+<% } %>

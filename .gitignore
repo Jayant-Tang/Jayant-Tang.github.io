@@ -1,0 +1,29 @@
+.DS_Store
+Thumbs.db
+
+.agent/
+
+# Local images (not uploaded to git)
+source/imgs/
+
+# Dependencies
+node_modules/
+
+# Hexo
+public/
+.deploy_git/
+db.json
+
+#images (upload to aliyun OSS)
+imgs/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+#AI
+.claude/
+.agent/
+.cursor
+.mcp.json

@@ -1,0 +1,258 @@
+{
+  "generatedAt": "2026-07-13T11:49:20+08:00",
+  "posts": {
+    "source/_posts/Matter OTA固件升级.md": {
+      "lastPublishedAt": "2026-07-06T18:20:52+08:00",
+      "postId": "19153505",
+      "postType": "Article",
+      "sourceHash": "sha256:ee12a5730a46db1d01fc9dae06f8697e08f4a7826af4f96f98f1bc554b292c97",
+      "status": "imported",
+      "title": "Matter OTA固件升级",
+      "url": "https://www.cnblogs.com/jayant97/articles/19153505"
+    },
+    "source/_posts/Matter证书体系与量产设备证书烧录.md": {
+      "lastPublishedAt": "2026-07-06T18:20:52+08:00",
+      "postId": "19122916",
+      "postType": "Article",
+      "sourceHash": "sha256:cfec944755dc1f6dced74d14aac692c5f7d1202f775cc50f79334f5dad2dc82a",
+      "status": "imported",
+      "title": "Matter证书体系与量产设备证书烧录",
+      "url": "https://www.cnblogs.com/jayant97/articles/19122916"
+    },
+    "source/_posts/NCS(Zephyr)中的蓝牙地址.md": {
+      "lastPublishedAt": "2026-07-06T18:20:52+08:00",
+      "postId": "19166250",
+      "postType": "Article",
+      "sourceHash": "sha256:add8dfda8c65b4bd8bbed93af10ef38c1c7a58ba083e177e79bc309efc2cdccb",
+      "status": "imported",
+      "title": "NCS(Zephyr)中的蓝牙地址",
+      "url": "https://www.cnblogs.com/jayant97/articles/19166250"
+    },
+    "source/_posts/NCS-Matter例程详解.md": {
+      "lastPublishedAt": "2026-07-06T18:20:52+08:00",
+      "postId": "18650736",
+      "postType": "Article",
+      "sourceHash": "sha256:219b20142f8e9e9b4a9fd089074df5f1fd65b9a6cf27af7743a7525a3ac8a4a7",
+      "status": "imported",
+      "title": "NCS Matter例程详解",
+      "url": "https://www.cnblogs.com/jayant97/articles/18650736"
+    },
+    "source/_posts/NCS-低功耗日志打印.md": {
+      "lastPublishedAt": "2026-07-06T18:20:52+08:00",
+      "postId": "18692364",
+      "postType": "Article",
+      "sourceHash": "sha256:a635566311aad0f3df4c7d9d41d96032b24bb489d5230c31de0f23a82735c1b4",
+      "status": "imported",
+      "title": "NCS 低功耗日志打印",
+      "url": "https://www.cnblogs.com/jayant97/articles/18692364"
+    },
+    "source/_posts/Nordic GPIO硬件原理与NCS应用详解.md": {
+      "lastPublishedAt": "2026-07-06T18:20:52+08:00",
+      "postId": "18141263",
+      "postType": "Article",
+      "sourceHash": "sha256:3d7c7973c2fda3936263e38003760142106ae322847aa3ce674e37aca226d920",
+      "status": "imported",
+      "title": "Nordic GPIO硬件原理与NCS应用详解",
+      "url": "https://www.cnblogs.com/jayant97/articles/18141263"
+    },
+    "source/_posts/Zephyr中的分区和存储系统.md": {
+      "lastPublishedAt": "2026-07-13T10:12:18+08:00",
+      "postId": "21389875",
+      "postType": "Article",
+      "sourceHash": "sha256:a00a64a97d9fcb349406a1826515a6f1a2eb1c7a82b845cf7f7d300ba9085547",
+      "status": "synced",
+      "title": "Zephyr中的分区和存储系统",
+      "url": "https://www.cnblogs.com/jayant97/articles/21389875"
+    },
+    "source/_posts/Zephyr驱动与设备树实战——串口.md": {
+      "lastPublishedAt": "2026-07-06T18:20:52+08:00",
+      "postId": "17828907",
+      "postType": "Article",
+      "sourceHash": "sha256:9a6f6a030384dc4a28601782ef0a9c1eac38cc8f8c8387446dbfb63ab2ddd91f",
+      "status": "imported",
+      "title": "Zephyr驱动与设备树实战——串口",
+      "url": "https://www.cnblogs.com/jayant97/articles/17828907.html"
+    },
+    "source/_posts/nRF Connect SDK Add-ons介绍与国内安装实践.md": {
+      "lastPublishedAt": "2026-07-06T18:29:40+08:00",
+      "postId": "19906529",
+      "postType": "Article",
+      "sourceHash": "sha256:e00b1132a36440252f7a7cce770f4f098d0bea37f458f0bf20d21b527c4c7f22",
+      "status": "imported",
+      "title": "nRF Connect SDK Add-ons介绍与国内安装实践",
+      "url": "https://www.cnblogs.com/jayant97/articles/19906529"
+    },
+    "source/_posts/nRF9151蜂窝模组简介与定位例程解析.md": {
+      "lastPublishedAt": "2026-07-06T18:20:52+08:00",
+      "postId": "18850203",
+      "postType": "Article",
+      "sourceHash": "sha256:7bb8a00bd4eb247132c4be670bbc689b0434ab26c3375f12fda0993b405307d3",
+      "status": "imported",
+      "title": "nRF9151蜂窝模组简介与定位例程解析",
+      "url": "https://www.cnblogs.com/jayant97/articles/18850203"
+    },
+    "source/_posts/一文了解 Nordic Edge AI 方案.md": {
+      "lastPublishedAt": "2026-07-06T18:20:52+08:00",
+      "postId": "19861349",
+      "postType": "Article",
+      "sourceHash": "sha256:c8b22bb86538d283656c061a3ac294c2dc6eab220a141a2d45942b2490303868",
+      "status": "imported",
+      "title": "一文了解Nordic边缘AI方案",
+      "url": "https://www.cnblogs.com/jayant97/articles/19861349"
+    },
+    "source/_posts/使用Ubuntu进行WiFi6抓包.md": {
+      "lastPublishedAt": "2026-07-06T18:39:19+08:00",
+      "postId": "21180787",
+      "postType": "Article",
+      "sourceHash": "sha256:025f28056885fbacf5c3612e880d1437284da7743b0b55710385db84a48c9a22",
+      "status": "synced",
+      "title": "使用Ubuntu进行WiFi抓包",
+      "url": "https://www.cnblogs.com/jayant97/articles/21180787"
+    },
+    "source/_posts/使用nRF9160-DK连接nRF-Cloud示例.md": {
+      "lastPublishedAt": "2026-07-06T18:20:52+08:00",
+      "postId": "17206080",
+      "postType": "Article",
+      "sourceHash": "sha256:5aba68d80c91b512e55e2a87d8dc247d686d1894352f3ebbd095588f54494b9d",
+      "status": "imported",
+      "title": "nRF9160与nRF Cloud应用示例",
+      "url": "https://www.cnblogs.com/jayant97/articles/17206080.html"
+    },
+    "source/_posts/利用Wireshark和tcpdump对整个局域网进行实时抓包.md": {
+      "lastPublishedAt": "2026-07-06T18:39:19+08:00",
+      "postId": "21180788",
+      "postType": "Article",
+      "sourceHash": "sha256:1dc5d1ae369c07c31db089209ab795298ca9370ed156da95ac70e2da8ca648c6",
+      "status": "synced",
+      "title": "利用Wireshark和tcpdump对整个局域网进行实时抓包",
+      "url": "https://www.cnblogs.com/jayant97/articles/21180788"
+    },
+    "source/_posts/在AI辅助编程中接入Nordic知识库——Nordic-MCP实战.md": {
+      "lastPublishedAt": "2026-07-06T18:20:52+08:00",
+      "postId": "20779903",
+      "postType": "Article",
+      "sourceHash": "sha256:e8e317920ff3fcb76fda6ced318ba52b0da12e47f19a4b04fc1f0e9183722765",
+      "status": "imported",
+      "title": "在AI辅助编程中接入Nordic知识库——Nordic MCP实战",
+      "url": "https://www.cnblogs.com/jayant97/articles/20779903"
+    },
+    "source/_posts/在Matter中添加自己的蓝牙广播与服务.md": {
+      "lastPublishedAt": "2026-07-06T18:20:52+08:00",
+      "postId": "19169458",
+      "postType": "Article",
+      "sourceHash": "sha256:71c74e30a8fad97bcb2d34e760683f1f8bf95a3a92286a87213a25f4e02d301e",
+      "status": "imported",
+      "title": "在Matter中添加自己的蓝牙广播与服务",
+      "url": "https://www.cnblogs.com/jayant97/articles/19169458"
+    },
+    "source/_posts/在NCS中使用NRFX外设驱动库——以I2C为例.md": {
+      "lastPublishedAt": "2026-07-06T18:20:52+08:00",
+      "postId": "17835258",
+      "postType": "Article",
+      "sourceHash": "sha256:978472d6a03fc685ee5f88f417820d37c561f3c4b164b5d6f5e306ec2223ed17",
+      "status": "imported",
+      "title": "在NCS中使用NRFX外设驱动库——以I2C为例",
+      "url": "https://www.cnblogs.com/jayant97/articles/17835258.html"
+    },
+    "source/_posts/在WSL2中搭建Matter CHIP Tool环境.md": {
+      "lastPublishedAt": "2026-07-06T18:20:52+08:00",
+      "postId": "19110357",
+      "postType": "Article",
+      "sourceHash": "sha256:7c176d46c46f5b0af13cde76df999988d313a1883caef849cab3a8182b7cae2d",
+      "status": "imported",
+      "title": "在WSL2中搭建Matter CHIP Tool环境",
+      "url": "https://www.cnblogs.com/jayant97/articles/19110357"
+    },
+    "source/_posts/在Windows上使用Wireshark和Npcap进行WiFi嗅探.md": {
+      "lastPublishedAt": "2026-07-06T18:39:20+08:00",
+      "postId": "21180789",
+      "postType": "Article",
+      "sourceHash": "sha256:1ec0edaf93bad4cf1d77258dabf21ee32620432f84b5190161e8b0c0227d6eff",
+      "status": "synced",
+      "title": "在Windows上使用Wireshark和Npcap进行WiFi嗅探",
+      "url": "https://www.cnblogs.com/jayant97/articles/21180789"
+    },
+    "source/_posts/在nRF7002开发板上运行MQTT例程.md": {
+      "lastPublishedAt": "2026-07-06T18:29:40+08:00",
+      "postId": "17744193",
+      "postType": "Article",
+      "sourceHash": "sha256:c1c0d3ca36f5e29c5ddc2dd5fb44ed101c6ce660c40dc0bb60d340e43f85cde3",
+      "status": "imported",
+      "title": "在nRF7002开发板上运行MQTT例程",
+      "url": "https://www.cnblogs.com/jayant97/articles/17744193.html"
+    },
+    "source/_posts/安装nRF-Connect-SDK.md": {
+      "lastPublishedAt": "2026-07-06T18:20:52+08:00",
+      "postId": "17794804",
+      "postType": "Article",
+      "sourceHash": "sha256:ced3495a590ed039fd3d8e1f284925f6343e8de096ec78ba54dc3f4a5b033d1d",
+      "status": "imported",
+      "title": "安装nRF-Connect-SDK",
+      "url": "https://www.cnblogs.com/jayant97/articles/17794804.html"
+    },
+    "source/_posts/搭建自己的静态博客并自动部署.md": {
+      "lastPublishedAt": "2026-07-06T18:39:20+08:00",
+      "postId": "21180790",
+      "postType": "Article",
+      "sourceHash": "sha256:3708733f45f6c701c6449761c188408d7966b3dc32a14a9820a954869de54a82",
+      "status": "synced",
+      "title": "搭建自己的静态博客并自动部署",
+      "url": "https://www.cnblogs.com/jayant97/articles/21180790"
+    },
+    "source/_posts/最简洁清爽的ssh使用方案.md": {
+      "lastPublishedAt": "2026-07-13T01:06:37+08:00",
+      "postId": "21180793",
+      "postType": "Article",
+      "sourceHash": "sha256:8caeccc91e630e78a7f3d9aaa751402ebd1e079845e0e5c385c903db47be985d",
+      "status": "synced",
+      "title": "ssh密钥登陆",
+      "url": "https://www.cnblogs.com/jayant97/articles/21180793"
+    },
+    "source/_posts/树莓派无显示器方案-串口终端与网口直连终端.md": {
+      "lastPublishedAt": "2026-07-06T18:29:40+08:00",
+      "postId": "18802161",
+      "postType": "Article",
+      "sourceHash": "sha256:a0ac49e5844d6a8e2cd1809bc169ba273bb6dd433cf2b272ef3cfee297530f4e",
+      "status": "imported",
+      "title": "树莓派无显示器方案-串口终端与网口直连终端",
+      "url": "https://www.cnblogs.com/jayant97/articles/18802161"
+    },
+    "source/_posts/理解Zephyr项目的配置与构建系统.md": {
+      "lastPublishedAt": "2026-07-06T18:20:52+08:00",
+      "postId": "17794813",
+      "postType": "Article",
+      "sourceHash": "sha256:8b7aaed08fc9c9b74f77a4d904c37b070afcfcb07be66f1a3917ec4ef833da32",
+      "status": "imported",
+      "title": "理解Zephyr项目的配置与构建系统",
+      "url": "https://www.cnblogs.com/jayant97/articles/17794813.html"
+    },
+    "source/_posts/离线版nRF Connect for Desktop安装方法.md": {
+      "lastPublishedAt": "2026-07-06T18:29:40+08:00",
+      "postId": "17821601",
+      "postType": "Article",
+      "sourceHash": "sha256:96e126bb2db63ad340ad7e3cb7e0a97ed54cc886a58c3624c1aa5cba523cb8bd",
+      "status": "imported",
+      "title": "离线版nRF Connect for Desktop安装方法",
+      "url": "https://www.cnblogs.com/jayant97/articles/17821601.html"
+    },
+    "source/_posts/离线版nrfutil工具安装方法.md": {
+      "lastPublishedAt": "2026-07-06T18:29:40+08:00",
+      "postId": "17819404",
+      "postType": "Article",
+      "sourceHash": "sha256:936abd502edefae562ae61acd746ab0572357bca5e1b68156d62c72d319a9057",
+      "status": "imported",
+      "title": "离线版nrfutil工具安装方法",
+      "url": "https://www.cnblogs.com/jayant97/articles/17819404.html"
+    },
+    "source/_posts/详解Zephyr设备树（DeviceTree）与驱动模型.md": {
+      "lastPublishedAt": "2026-07-06T18:20:52+08:00",
+      "postId": "17209392",
+      "postType": "Article",
+      "sourceHash": "sha256:b78b931e517fbe75e25f91f1108bf7554be33054a9ca8d00596813dd2448e904",
+      "status": "imported",
+      "title": "详解Zephyr设备树（DeviceTree）与驱动模型",
+      "url": "https://www.cnblogs.com/jayant97/articles/17209392.html"
+    }
+  },
+  "schemaVersion": 1
+}

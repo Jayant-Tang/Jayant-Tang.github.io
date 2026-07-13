@@ -1,0 +1,218 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+    inputs:
+      cnblogs_action:
+        description: "博客园同步动作"
+        required: true
+        default: sync_changed
+        type: choice
+        options:
+          - sync_changed
+          - sync_all
+          - import_scan
+      target_paths:
+        description: "手动同步的 markdown 路径，多个路径可换行分隔"
+        required: false
+        type: string
+
+env:
+  GIT_USER: Jayant.Tang
+  GIT_EMAIL: jayant.tang@nordicsemi.no
+
+jobs:
+  build:
+    name: Build on node ${{ matrix.node_version }} and ${{ matrix.os }}
+    runs-on: ubuntu-latest
+    outputs:
+      cnblogs_action: ${{ steps.cnblogs_action.outputs.action }}
+      cnblogs_count: ${{ steps.cnblogs_action.outputs.count }}
+      cnblogs_changed_file: ${{ steps.cnblogs_action.outputs.changed_file }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node_version: [20]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: recursive
+
+      - name: Use Node.js ${{ matrix.node_version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node_version }}
+
+      - name: Cache NPM dependencies
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
+      - name: Use Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Configuration environment
+        run: |
+          sudo timedatectl set-timezone "Asia/Shanghai"
+          git config --global user.name $GIT_USER
+          git config --global user.email $GIT_EMAIL
+
+      - name: Install dependencies
+        run: |
+          npm install
+
+      - name: Install cnblogs dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r tools/cnblogs/requirements.txt
+
+      - name: Resolve cnblogs action
+        id: cnblogs_action
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          MANUAL_ACTION: ${{ github.event.inputs.cnblogs_action }}
+          TARGET_PATHS: ${{ github.event.inputs.target_paths }}
+          PUSH_COMMITS_JSON: ${{ toJSON(github.event.commits) }}
+        run: |
+          python - <<'PY'
+          import os, json, subprocess, glob
+          from pathlib import Path
+
+          def list_all_posts():
+              files = glob.glob("source/_posts/**/*.md", recursive=True)
+              if not files:
+                  try:
+                      files = subprocess.check_output(
+                          ["git", "ls-files", "--", "source/_posts"],
+                          text=True,
+                      ).splitlines()
+                  except subprocess.CalledProcessError:
+                      pass
+              return [f for f in files if f.endswith(".md")]
+
+          workspace = Path.cwd()
+          cnblogs_dir = workspace / ".cnblogs"
+          cnblogs_dir.mkdir(exist_ok=True)
+          changed_file = cnblogs_dir / "changed-files.txt"
+
+          event_name = os.environ["EVENT_NAME"]
+          manual_action = os.environ.get("MANUAL_ACTION") or "sync_changed"
+          target_paths_raw = os.environ.get("TARGET_PATHS") or ""
+
+          if event_name == "workflow_dispatch":
+              action = manual_action
+              if action == "sync_all":
+                  files = list_all_posts()
+              elif action == "sync_changed":
+                  files = [line.strip() for line in target_paths_raw.splitlines() if line.strip()]
+                  if not files:
+                      files = list_all_posts()
+              else:
+                  files = []
+          else:
+              action = "sync_changed"
+              commits_json = os.environ.get("PUSH_COMMITS_JSON") or "[]"
+              try:
+                  commits = json.loads(commits_json)
+              except (json.JSONDecodeError, TypeError):
+                  commits = []
+              seen = set()
+              files = []
+              for c in (commits or []):
+                  for path_list in (c.get("added", []), c.get("modified", [])):
+                      for path in path_list:
+                          if path.startswith("source/_posts/") and path.endswith(".md"):
+                              if path not in seen:
+                                  files.append(path)
+                                  seen.add(path)
+
+          files = [path for path in files if path.endswith(".md")]
+          changed_file.write_text("\n".join(files), encoding="utf-8")
+
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
+              output.write(f"action={action}\n")
+              output.write(f"count={len(files)}\n")
+              output.write(f"changed_file=.cnblogs/changed-files.txt\n")
+
+          print(f"cnblogs_action={action}")
+          print(f"file_count={len(files)}")
+          PY
+
+      - name: Sync changed posts to cnblogs
+        if: steps.cnblogs_action.outputs.action != 'import_scan' && steps.cnblogs_action.outputs.count != '0'
+        env:
+          CNBLOGS_BLOG_APP: ${{ secrets.CNBLOGS_BLOG_APP }}
+          CNBLOGS_USERNAME: ${{ secrets.CNBLOGS_USERNAME }}
+          CNBLOGS_TOKEN: ${{ secrets.CNBLOGS_TOKEN }}
+          CNBLOGS_BLOG_ID: ${{ secrets.CNBLOGS_BLOG_ID }}
+          CNBLOGS_OPENAPI_TOKEN: ${{ secrets.CNBLOGS_OPENAPI_TOKEN }}
+        run: |
+          python tools/cnblogs/cnblogs_sync.py \
+            --workspace-root . \
+            --index .cnblogs/posts-index.json \
+            --changed-file-list "${{ steps.cnblogs_action.outputs.changed_file }}"
+
+      - name: Commit cnblogs metadata backfill
+        if: steps.cnblogs_action.outputs.action != 'import_scan' && steps.cnblogs_action.outputs.count != '0'
+        run: |
+          if [ -n "$(git status --porcelain -- source/_posts .cnblogs/posts-index.json)" ]; then
+            git add source/_posts .cnblogs/posts-index.json
+            git commit -m "chore(cnblogs): backfill metadata [skip ci]" || true
+            git push origin master
+          fi
+
+      - name: Generate cnblogs import candidates
+        if: steps.cnblogs_action.outputs.action == 'import_scan'
+        env:
+          CNBLOGS_BLOG_APP: ${{ secrets.CNBLOGS_BLOG_APP }}
+          CNBLOGS_USERNAME: ${{ secrets.CNBLOGS_USERNAME }}
+          CNBLOGS_TOKEN: ${{ secrets.CNBLOGS_TOKEN }}
+          CNBLOGS_BLOG_ID: ${{ secrets.CNBLOGS_BLOG_ID }}
+          CNBLOGS_OPENAPI_TOKEN: ${{ secrets.CNBLOGS_OPENAPI_TOKEN }}
+        run: |
+          python tools/cnblogs/cnblogs_import_existing.py scan --workspace-root .
+
+      - name: Upload cnblogs import candidates
+        if: steps.cnblogs_action.outputs.action == 'import_scan'
+        uses: actions/upload-artifact@v4
+        with:
+          name: cnblogs-import-candidates
+          path: .cnblogs/import-candidates.json
+          retention-days: 30
+
+      - name: Build site
+        if: steps.cnblogs_action.outputs.action != 'import_scan'
+        run: npm run build
+
+      - name: Upload Pages artifact
+        if: steps.cnblogs_action.outputs.action != 'import_scan'
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ./public
+
+  deploy:
+    needs: build
+    if: needs.build.result == 'success' && needs.build.outputs.cnblogs_action != 'import_scan'
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

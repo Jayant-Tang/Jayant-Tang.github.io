@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": null,
+  "blogApp": "",
+  "summary": {
+    "localPostsScanned": 0,
+    "remotePostsScanned": 0,
+    "matches": 0,
+    "conflicts": 0,
+    "unmatchedLocal": 0,
+    "unmatchedRemote": 0
+  },
+  "matches": [],
+  "conflicts": [],
+  "unmatchedLocal": [],
+  "unmatchedRemote": []
+}

@@ -1,0 +1,33 @@
+source/_posts/Zephyr中的受信固件（TF-M）原理与实践.md
+source/_posts/nRF9151蜂窝模组简介与定位例程解析.md
+source/_posts/Zephyr中的分区和存储系统.md
+source/_posts/安装nRF-Connect-SDK.md
+source/_posts/nRF Connect SDK Add-ons介绍与国内安装实践.md
+source/_posts/理解Zephyr项目的配置与构建系统.md
+source/_posts/在NCS中使用NRFX外设驱动库——以I2C为例.md
+source/_posts/Nordic GPIO硬件原理与NCS应用详解.md
+source/_posts/离线版nRF Connect for Desktop安装方法.md
+source/_posts/使用nRF9160-DK连接nRF-Cloud示例.md
+source/_posts/使用Ubuntu进行WiFi6抓包.md
+source/_posts/NCS-低功耗日志打印.md
+source/_posts/在AI辅助编程中接入Nordic知识库——Nordic-MCP实战.md
+source/_posts/Matter OTA固件升级.md
+source/_posts/详解Zephyr设备树（DeviceTree）与驱动模型.md
+source/_posts/在WSL2中搭建Matter CHIP Tool环境.md
+source/_posts/离线版nrfutil工具安装方法.md
+source/_posts/利用Wireshark和tcpdump对整个局域网进行实时抓包.md
+source/_posts/最简洁清爽的ssh使用方案.md
+source/_posts/Matter证书体系与量产设备证书烧录.md
+source/_posts/Nordic-UICR-存储寄存器详解.md
+source/_posts/在Matter中添加自己的蓝牙广播与服务.md
+source/_posts/Zephyr驱动与设备树实战——串口.md
+source/_posts/WiFi抓包的过滤器设置.md
+source/_posts/NCS(Zephyr)中的蓝牙地址.md
+source/_posts/NCS-Matter例程详解.md
+source/_posts/NCS固件升级（DFU）应用详解.md
+source/_posts/一文了解 Nordic Edge AI 方案.md
+source/_posts/在Windows上使用Wireshark和Npcap进行WiFi嗅探.md
+source/_posts/树莓派无显示器方案-串口终端与网口直连终端.md
+source/_posts/搭建自己的静态博客并自动部署.md
+source/_posts/在NCS中搭建Matter开发环境.md
+source/_posts/在nRF7002开发板上运行MQTT例程.md
