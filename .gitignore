@@ -5,6 +5,7 @@ Thumbs.db
 
 # Local images (not uploaded to git)
 source/imgs/
+source/_posts/imgs/
 
 # Dependencies
 node_modules/
