@@ -84,6 +84,8 @@ jobs:
           MANUAL_ACTION: ${{ github.event.inputs.cnblogs_action }}
           TARGET_PATHS: ${{ github.event.inputs.target_paths }}
           PUSH_COMMITS_JSON: ${{ toJSON(github.event.commits) }}
+          BEFORE_SHA: ${{ github.event.before }}
+          AFTER_SHA: ${{ github.sha }}
         run: |
           python - <<'PY'
           import os, json, subprocess, glob
@@ -100,6 +102,46 @@ jobs:
                   except subprocess.CalledProcessError:
                       pass
               return [f for f in files if f.endswith(".md")]
+
+          def list_changed_posts_from_git(before_sha: str, after_sha: str) -> list[str]:
+              zero = "0" * 40
+              if not after_sha:
+                  return []
+              try:
+                  if before_sha and before_sha != zero:
+                      output = subprocess.check_output(
+                          [
+                              "git", "diff", "--name-only", "--diff-filter=AM",
+                              before_sha, after_sha, "--", "source/_posts",
+                          ],
+                          text=True,
+                      )
+                  else:
+                      output = subprocess.check_output(
+                          [
+                              "git", "show", "--name-only", "--format=",
+                              after_sha, "--", "source/_posts",
+                          ],
+                          text=True,
+                      )
+              except subprocess.CalledProcessError:
+                  return []
+              return [
+                  path for path in output.splitlines()
+                  if path.startswith("source/_posts/") and path.endswith(".md")
+              ]
+
+          def list_changed_posts_from_commits(commits: list) -> list[str]:
+              seen = set()
+              files = []
+              for commit in commits or []:
+                  for path_list in (commit.get("added", []), commit.get("modified", [])):
+                      for path in path_list or []:
+                          if path.startswith("source/_posts/") and path.endswith(".md"):
+                              if path not in seen:
+                                  files.append(path)
+                                  seen.add(path)
+              return files
 
           workspace = Path.cwd()
           cnblogs_dir = workspace / ".cnblogs"
@@ -127,15 +169,12 @@ jobs:
                   commits = json.loads(commits_json)
               except (json.JSONDecodeError, TypeError):
                   commits = []
-              seen = set()
-              files = []
-              for c in (commits or []):
-                  for path_list in (c.get("added", []), c.get("modified", [])):
-                      for path in path_list:
-                          if path.startswith("source/_posts/") and path.endswith(".md"):
-                              if path not in seen:
-                                  files.append(path)
-                                  seen.add(path)
+              files = list_changed_posts_from_commits(commits)
+              if not files:
+                  files = list_changed_posts_from_git(
+                      os.environ.get("BEFORE_SHA", ""),
+                      os.environ.get("AFTER_SHA", ""),
+                  )
 
           files = [path for path in files if path.endswith(".md")]
           changed_file.write_text("\n".join(files), encoding="utf-8")
@@ -147,6 +186,10 @@ jobs:
 
           print(f"cnblogs_action={action}")
           print(f"file_count={len(files)}")
+          if files:
+              print("changed_posts:")
+              for path in files:
+                  print(f"  - {path}")
           PY
 
       - name: Sync changed posts to cnblogs
