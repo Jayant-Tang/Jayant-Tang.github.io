@@ -9,12 +9,13 @@ flowchart LR
   Dev[本地编辑 Markdown] --> Push[git push master]
   Push --> CI[GitHub Actions]
   CI --> Cnblogs[博客园同步]
-  CI --> Build[hexo generate]
+  Cnblogs --> Backfill[元数据回写 commit]
+  Backfill --> Build[hexo generate]
   Build --> Pages[GitHub Pages Actions]
   Pages --> Site[jayant-tang.github.io]
-  Cnblogs --> Backfill[元数据回写 commit]
-  Backfill --> Push
 ```
+
+> 回写提交带 `[skip ci]`，且 `GITHUB_TOKEN` 推送默认不触发新 workflow，避免循环构建。
 
 两条发布链路在一次 CI 中完成：
 
@@ -104,7 +105,6 @@ cnblogs:
 
 ```yaml
 cnblogs:
-  published: true
   postType: Article
   postId:
   url:
@@ -116,7 +116,7 @@ cnblogs:
 字段说明：
 
 - `postId`：博客园文章 ID
-- `published`：是否允许同步到博客园；设为 `false` 时跳过
+- `published`：可选字段；只在需要禁止同步时设为 `false`。不写时默认允许同步，成功发布状态由 `postId / url / lastPublishedAt / sourceHash / status` 回写记录
 - `postType`：当前默认为 `Article`
 - `url`：博客园文章链接
 - `lastPublishedAt`：最近一次成功同步时间
@@ -132,6 +132,18 @@ cnblogs:
 
 工作流定义见 [`.github/workflows/main.yml`](../.github/workflows/main.yml)。
 
+### Runner 环境
+
+| 项 | 配置 |
+| --- | --- |
+| Node.js | 20 |
+| Python | 3.12（博客园同步） |
+| checkout | `fetch-depth: 0`（保留完整 git 历史，供变更文件回退检测） |
+| 时区 | `Asia/Shanghai` |
+| npm 缓存 | `actions/cache`，key 为 `package-lock.json` 哈希 |
+| build job 权限 | `contents: write`（元数据回写 push 需要） |
+| 依赖更新 | `.github/dependabot.yml` 每日检查 npm 依赖 |
+
 ### push 到 `master`
 
 1. 从本次 push 的 commit 范围中收集变更的 `source/_posts/*.md`（added / modified）
@@ -139,8 +151,8 @@ cnblogs:
    - 若 payload 未带文件列表（常见），回退为 `git diff before..after -- source/_posts`
 2. 若没有文章变更，跳过博客园同步，直接构建并部署站点
 3. 若有文章变更，调用 `tools/cnblogs/cnblogs_sync.py` 同步到博客园
-4. 若实际创建或更新了文章，CI 会把 `cnblogs` 元数据写回 front matter 和 `.cnblogs/posts-index.json`，并以 `[skip ci]` 提交回仓库
-5. 同步完成后执行 `npm run build`，并通过 GitHub Pages Actions 发布 `public/`
+4. 若同步导致 front matter 或 `.cnblogs/posts-index.json` 有改动，CI 会以 `[skip ci]` 提交并 push 回仓库；全跳过时不会产生回写提交
+5. 同步（或跳过同步）完成后执行 `npm run build`，并通过 GitHub Pages Actions 发布 `public/`
 
 说明：
 
@@ -206,5 +218,3 @@ python tools/cnblogs/cnblogs_import_existing.py apply --workspace-root .
 ## 仓库迁移说明
 
 本仓库由原 `my-hexo` 源码仓与 `Jayant-Tang.github.io` 部署仓合并而来。部署方式已从 `hexo-deployer-git` 改为 GitHub 官方 Pages Actions，不再向独立部署仓推送静态文件历史。
-
-备份标签：`backup/pre-merge-2026-07-13`

@@ -27,3 +27,4 @@ __pycache__/
 .agent/
 .cursor
 .mcp.json
+.codegraph/
