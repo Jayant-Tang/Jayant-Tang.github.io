@@ -46,3 +46,15 @@ _config.fluid.yml  主题配置
 .github/workflows/ CI 工作流
 tools/cnblogs/     博客园同步脚本
 ```
+
+## 许可
+
+### 代码与工程文件（MIT）
+
+除下文「文章内容」外，本仓库中的 Hexo 配置、主题自定义、CI 工作流、`scripts/`、`tools/`、`injects/` 等工程文件以 [MIT License](LICENSE) 发布。你可以自由参考、复用和修改这些搭建与脚本代码，但需保留版权声明。
+
+### 文章内容（`source/_posts/`）
+
+`source/_posts/` 下的 Markdown 原创文章**不适用 MIT**，版权归作者所有。仓库内的文章源文件不得因根目录 MIT 许可而被视为可随意再分发或商用的内容。
+
+已发布站点上，Fluid 主题会在文章页底部展示 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)（见 `_config.fluid.yml` 中 `post.copyright.license: 'BY'`）。该许可仅针对**线上已发布的 HTML 页面**；转载、改编或商用请以页面底部标注的 CC 条款为准，且不等同于对 Git 仓库内 Markdown 源文件的额外授权。
