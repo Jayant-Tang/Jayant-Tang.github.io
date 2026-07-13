@@ -98,7 +98,7 @@ jobs:
               if not files:
                   try:
                       files = subprocess.check_output(
-                          ["git", "ls-files", "--", "source/_posts"],
+                          ["git", "-c", "core.quotepath=false", "ls-files", "--", "source/_posts"],
                           text=True,
                       ).splitlines()
                   except subprocess.CalledProcessError:
@@ -113,7 +113,8 @@ jobs:
                   if before_sha and before_sha != zero:
                       output = subprocess.check_output(
                           [
-                              "git", "diff", "--name-only", "--diff-filter=AM",
+                              "git", "-c", "core.quotepath=false",
+                              "diff", "--name-only", "--diff-filter=AM",
                               before_sha, after_sha, "--", "source/_posts",
                           ],
                           text=True,
@@ -121,7 +122,8 @@ jobs:
                   else:
                       output = subprocess.check_output(
                           [
-                              "git", "show", "--name-only", "--format=",
+                              "git", "-c", "core.quotepath=false",
+                              "show", "--name-only", "--format=",
                               after_sha, "--", "source/_posts",
                           ],
                           text=True,

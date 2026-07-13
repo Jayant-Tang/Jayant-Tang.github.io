@@ -148,7 +148,7 @@ cnblogs:
 
 1. 从本次 push 的 commit 范围中收集变更的 `source/_posts/*.md`（added / modified）
    - 优先读取 `github.event.commits` 中的文件列表
-   - 若 payload 未带文件列表（常见），回退为 `git diff before..after -- source/_posts`
+   - 若 payload 未带文件列表（常见），回退为 `git -c core.quotepath=false diff before..after -- source/_posts`，避免中文文件名被转义后无法匹配路径
 2. 若没有文章变更，跳过博客园同步，直接构建并部署站点
 3. 若有文章变更，调用 `tools/cnblogs/cnblogs_sync.py` 同步到博客园
 4. 若同步导致 front matter 或 `.cnblogs/posts-index.json` 有改动，CI 会以 `[skip ci]` 提交并 push 回仓库；全跳过时不会产生回写提交
