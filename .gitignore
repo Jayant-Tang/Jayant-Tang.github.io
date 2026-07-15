@@ -17,6 +17,7 @@ db.json
 
 #images (upload to aliyun OSS)
 imgs/
+*.assets/
 
 # Python
 __pycache__/

@@ -272,15 +272,15 @@ pm_device_action_run(&my_dev, PM_DEVICE_ACTION_RESUME);
 
  `CONFIG_PM_DEVICE_RUNTIME=y`就是Zephyr提供的另外一个库，它相当于对Device Management的API进行了一层封装：
 
-![../../_images/devr-sync-ops.svg](https://docs-be.nordicsemi.com/bundle/ncs-latest/page/zephyr/_images/devr-sync-ops.svg?_LANG=enus)
+![img](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefinedf34742ba56bf7c4ffbe45cb73f4a1d39.png)
 
-当应用层调用外设的API时，驱动层先调用`pm_device_runtime_get()`函数，使得`usage`变量+1。当usage变量大于1时，PM Subsystem就会调用`pm_device_action_run(dev, PM_DEVICE_ACTION_RESUME)`来让驱动层打开这个外设。
+当应用层调用外设的API时，驱动层先调用`pm_device_runtime_get()`函数，使得`usage`变量+1。当usage变量大于等于1时，PM Subsystem就会调用`pm_device_action_run(dev, PM_DEVICE_ACTION_RESUME)`来让驱动层打开这个外设。
 
 当这个外设不再使用时（发送完毕/接收完毕），驱动层则调用`pm_device_runtime_put()`函数，使得`usage`变量-1。当`usage == 0`时，PM Subsystem就会调用`pm_device_action_run(dev, PM_DEVICE_ACTION_SUSPEND)`来让驱动层关闭这个外设。
 
 这种实现是线程安全的，并且不需要应用层手动控制这个外设。此外，即使应用层重复地进行`get`或者`put`，也不会影响它实际的运行逻辑。
 
-> NCS v2.8.0之后，Nordic串口驱动才加入了Runtime的支持。
+> NCS v2.8.0 之后，Nordic 串口驱动才加入了Runtime的支持。
 
 Runtime电源管理的功能，要看驱动程序是否支持，主要是看它有没有调用`pm_device_runtime_put`和`pm_device_runtime_get`。
 
@@ -365,7 +365,7 @@ int main(void)
 
 ![image-20250127010021221](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/image-20250127010021221.webp)
 
-我猜想这可能是因为33字节刚好触发了Power Management打开串口，但是却又差一个字节才能发出去，导致数据实际未能发出，要等下一次数据到来才能发送。但是发送完毕后，串口又立即被打开了。
+我猜想这可能是因为33字节刚好触发了 Power Management 打开串口，但是却又差一个字节才能发出去，导致数据实际未能发出，要等下一次数据到来才能发送。但是发送完毕后，串口又立即被打开了。
 
 这个问题最坑的点在于...
 
