@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-15T11:28:59+08:00",
+  "generatedAt": "2026-07-29T14:07:53+08:00",
   "posts": {
     "source/_posts/Matter OTA固件升级.md": {
       "lastPublishedAt": "2026-07-06T18:20:52+08:00",
@@ -182,12 +182,12 @@
       "url": "https://www.cnblogs.com/jayant97/articles/17744193.html"
     },
     "source/_posts/安装nRF-Connect-SDK.md": {
-      "lastPublishedAt": "2026-07-06T18:20:52+08:00",
+      "lastPublishedAt": "2026-07-29T14:07:53+08:00",
       "postId": "17794804",
       "postType": "Article",
-      "sourceHash": "sha256:ced3495a590ed039fd3d8e1f284925f6343e8de096ec78ba54dc3f4a5b033d1d",
-      "status": "imported",
-      "title": "安装nRF-Connect-SDK",
+      "sourceHash": "sha256:a85e989d6f14ecef2f2a232275bf7889111ae9426e8e3ba45ca1332b73c2e95d",
+      "status": "synced",
+      "title": "nRF-Connect-SDK 安装与入门",
       "url": "https://www.cnblogs.com/jayant97/articles/17794804.html"
     },
     "source/_posts/搭建自己的静态博客并自动部署.md": {
