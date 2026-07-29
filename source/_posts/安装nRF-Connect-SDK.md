@@ -13,9 +13,9 @@ sticky: 1000
 cnblogs:
   postId: '17794804'
   url: https://www.cnblogs.com/jayant97/articles/17794804.html
-  lastPublishedAt: '2026-07-29T14:07:53+08:00'
-  sourceHash: sha256:a85e989d6f14ecef2f2a232275bf7889111ae9426e8e3ba45ca1332b73c2e95d
-  status: synced
+  lastPublishedAt: '2026-07-06T18:20:52+08:00'
+  sourceHash: sha256:ced3495a590ed039fd3d8e1f284925f6343e8de096ec78ba54dc3f4a5b033d1d
+  status: imported
   postType: Article
 ---
 
@@ -114,15 +114,15 @@ Nordic 的 NCS 在 Zephyr 的基础上提供了更多的脚本工具、协议栈
 
 J-Link 驱动的版本参考 [NCS依赖(v3.4.0)](https://nrfconnectdocs.nordicsemi.com/ncs/3.4.0/nrf/installation/recommended_versions.html) 文档。打开文档后，先把文档版本对齐为你要安装的最新的正式版 NCS 版本，比如这里是 NCS v3.4.0：
 
-![image-20260727114142910](/imgs/安装nRF-Connect-SDK.assets/image-20260727114142910.png)
+![image-20260727114142910](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined6acd60546f7305570d159824d7254223.png)
 
 然后往下翻，找到 J-Link 需要的版本：
 
-![image-20260727113737434](/imgs/安装nRF-Connect-SDK.assets/image-20260727113737434.png)
+![image-20260727113737434](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined5e52e045342462a551fa2141bc89a5a8.png)
 
 一般来说比这个版本高也是可以的。在 [SEGGER - J-Link官网](https://www.segger.com/downloads/jlink) 下载 J-LINK 驱动：
 
-![image-20260727114246957](/imgs/安装nRF-Connect-SDK.assets/image-20260727114246957.png)
+![image-20260727114246957](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined3379a59627e34403436257355cb61d8f.png)
 
 Linux系统直接安装：
 
@@ -144,9 +144,9 @@ JLink_Windows_V924a_x86_64.exe -InstUSBDriver=1
 
 安装完毕后，Windows 系统一定要把 J-Link 可执行文件所在目录添加到 PATH 环境变量：
 
-![image-20260727125717008](/imgs/安装nRF-Connect-SDK.assets/image-20260727125717008.png)
+![image-20260727125717008](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined3ab427604c6921aaba78250fd983e9d4.png)
 
-![image-20260727115228690](/imgs/安装nRF-Connect-SDK.assets/image-20260727115228690.png)
+![image-20260727115228690](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined0628a2ce59abdd9abd34e8ee424be42c.png)
 
 > 注意，根据前面安装时选择 "Update existing installation" 还是 "Install a new instance"，JLink.exe 所在的目录是不一样的。设置 PATH 环境变量时要注意设置正确的位置。
 
@@ -187,11 +187,11 @@ nrfutil 是一个命令行工具集。它可以联网安装、升级许多功能
 1. J-link 驱动
 2. Windows 系统： C++ 运行库 [Microsoft Visual C++ Redistributable](https://docs.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170#visual-studio-2015-2017-2019-and-2022)
 
-![image-20260727132938699](/imgs/安装nRF-Connect-SDK.assets/image-20260727132938699.png)
+![image-20260727132938699](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined48ef45af91799a7b177ad7f0ce2bb276.png)
 
 在官网下载可执行文件：[nRF Util](https://www.nordicsemi.com/Products/Development-tools/nRF-Util)。
 
-![image-20260727133146470](/imgs/安装nRF-Connect-SDK.assets/image-20260727133146470.png)
+![image-20260727133146470](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined7dd55ebb4b51e9f23a5e448d876b6a37.png)
 
 然后把 nrfutil 所在目录添加到 PATH 环境变量：
 
@@ -282,17 +282,17 @@ nrfutil upgrade
 
 VS Code的插件可以在VS Code插件市场搜索 **nRF Connect for VS Code Extension pack** 来一次性安装所有需要的插件。
 
-![image-20260727135628971](/imgs/安装nRF-Connect-SDK.assets/image-20260727135628971.png)
+![image-20260727135628971](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined73c2415bb35f776f0f2b9ebff60bb110.png)
 
 如果你需要 CMake 语法高亮，可以安装 `CMake - twxs`插件：
 
-![image-20260727142008865](/imgs/安装nRF-Connect-SDK.assets/image-20260727142008865.png)
+![image-20260727142008865](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefinedee5d0170caa7d417d65e299864da2b63.png)
 
 注意，**不要安装** `CMake Tools - Microsoft`，这个会一直弹窗让你选择 CMakeLists.txt 文件和编译器，在 Zephyr 中都是不需要的。如果你电脑上其他项目需要这个插件，可以单独在 NCS 的 workspace 中禁用这个插件，见后续章节。
 
 如果你还需要远程开发，比如 SDK 安装在远程服务器或者虚拟机中的情况，可以在本机安装 Remote 插件：
 
-![image-20260727142141571](/imgs/安装nRF-Connect-SDK.assets/image-20260727142141571.png)
+![image-20260727142141571](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefinedadf9345875d521f0599ef92405b4fa78.png)
 
 > 如果你的电脑不能联网，需要离线安装插件。参考以下内容：
 >
@@ -392,7 +392,7 @@ nrfutil：
 
 VS Code：
 
-![image-20260727153312403](/imgs/安装nRF-Connect-SDK.assets/image-20260727153312403.png)
+![image-20260727153312403](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined9b8030e61b3f07d61c76fe2c7ea8b6a8.png)
 
 > Windows 注意事项：
 >
@@ -438,34 +438,34 @@ nrf       v3.4.0       Installed   Installed
 
 首先设置中国大陆服务器源：
 
-![image-20260727154752794](/imgs/安装nRF-Connect-SDK.assets/image-20260727154752794.png)
+![image-20260727154752794](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefinedc75042b0078d92a9d902150097602d1d.png)
 
 首次安装界面：
 
-![image-20260727154826200](/imgs/安装nRF-Connect-SDK.assets/image-20260727154826200.png)
+![image-20260727154826200](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined3a2d252ec479ac16f83f2fcf5d38fe4d.png)
 
 非首次安装界面：
 
-![image-20260727162326688](/imgs/安装nRF-Connect-SDK.assets/image-20260727162326688.png)
+![image-20260727162326688](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefinedd1b47cb5f8e53b595cb0faa474e12f98.png)
 
 选择 nRF Connect SDK：
 
-![image-20260727154944748](/imgs/安装nRF-Connect-SDK.assets/image-20260727154944748.png)
+![image-20260727154944748](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefinedc0b2bfe300596ab7256be1b3c072d791.png)
 
 > 另外一个是裸机 SDK，仅支持 nRF54L 系列，仅支持 BLE 开发。只适合 nRF5 SDK 历史包袱较重的公司或开发者临时过渡使用。
 
 选择要安装的版本：
 
-![image-20260727155236752](/imgs/安装nRF-Connect-SDK.assets/image-20260727155236752.png)
+![image-20260727155236752](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined100fb7044ca76fffe6c61404f1441766.png)
 
 > 【注意】
 >
 > 1. 右上角 "Pre-packaged" 标记代表从 Nordic 服务器下载，速度较快。而 "GitHub" 标记表示从 GitHub拉取，速度很慢。
 >
->    ![image-20260727160712185](/imgs/安装nRF-Connect-SDK.assets/image-20260727160712185.png)
+>    ![image-20260727160712185](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined97dd28697a5ffcf30cdf81624b7d1590.png)
 >
 > 2. LTS 是长期支持（Long-Term Support）。
->    ![branch sample](/imgs/安装nRF-Connect-SDK.assets/2313.branch.png)
+>    ![branch sample](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined8300725255fb2909549d8ef1dfdf62c4.png)
 >
 >    Nordic 承诺从 v3.4.0 开始提供 5 年保证的长期支持版本。在支持期内：
 >
@@ -479,13 +479,13 @@ nrf       v3.4.0       Installed   Installed
 
 由于前面已经设置了`D:\ncs`安装路径，这里自动识别了正确位置，直接回车安装即可。
 
-![image-20260727160953797](/imgs/安装nRF-Connect-SDK.assets/image-20260727160953797.png)
+![image-20260727160953797](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined9a75087732f4962ab26f4cc53efdc473.png)
 
 查看安装进度：
 
 在 Output 标签页下，选择 nRF Connect 插件日志，即可查看安装进度和日志：
 
-![image-20260727161352361](/imgs/安装nRF-Connect-SDK.assets/image-20260727161352361.png)
+![image-20260727161352361](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefinedf6b3c11ccf73b882f805699561f9e704.png)
 
 等待安装完毕。
 
@@ -519,7 +519,7 @@ nrfutil sdk-manager toolchain install --ncs-version v3.4.0
 
 使用 VS Code 的方式：
 
-![image-20260727170013980](/imgs/安装nRF-Connect-SDK.assets/image-20260727170013980.png)
+![image-20260727170013980](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefinedcdd8fdc46cdf1532a3b3b5478c4d09cb.png)
 
 ### 打开工具链环境
 
@@ -539,19 +539,19 @@ nrfutil sdk-manager toolchain launch --ncs-version v3.4.0 --shell
 
 #### VS Code 打开工具链环境
 
-![image-20260727170653579](/imgs/安装nRF-Connect-SDK.assets/image-20260727170653579.png)
+![image-20260727170653579](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefinedd46b1d5372a142eb465b713e786aaa74.png)
 
 默认情况下打开 toolchain 环境时，要同时指定 SDK 版本和 toolchain 版本。但是这里我们要安装新的 SDK，直接跳过 SDK 选择：
 
-![image-20260727170923857](/imgs/安装nRF-Connect-SDK.assets/image-20260727170923857.png)
+![image-20260727170923857](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined2d0d0b2d7e7b44621fa97a3e1b9347af.png)
 
 然后选择刚刚安装的 Toolchain 版本：
 
-![image-20260727171000046](/imgs/安装nRF-Connect-SDK.assets/image-20260727171000046.png)
+![image-20260727171000046](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefinedee53fdfa13b3796c32985bc046f8363d.png)
 
 打开的工具链环境：
 
-![image-20260727171100460](/imgs/安装nRF-Connect-SDK.assets/image-20260727171100460.png)
+![image-20260727171100460](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefinedcef028b7f57ba60724ae108eff115e31.png)
 
 ### 验证工具链环境
 
@@ -913,7 +913,7 @@ west forall -c 'git submodule foreach --recursive git config core.filemode false
 
 打开整个SDK目录，这样做是为了**看代码跳转时，SDK中的代码也能跳转到**：
 
-![image-20260727173748165](/imgs/安装nRF-Connect-SDK.assets/image-20260727173748165.png)
+![image-20260727173748165](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefinedd205e6531ce5b2605dfaa7efb0fc5855.png)
 
 然后在VS Code中再打开一个例程：
 
@@ -981,7 +981,7 @@ NCS支持以例程作为模板，复制并创建新的工程。这也是Nordic�
 
 选择要使用的 SDK 版本：
 
-![image-20260728232706341](/imgs/安装nRF-Connect-SDK.assets/image-20260728232706341.png)
+![image-20260728232706341](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefineda9fe727db15e3e58ff7368279e424d68.png)
 
 选择“Copy a sample”
 
@@ -989,7 +989,7 @@ NCS支持以例程作为模板，复制并创建新的工程。这也是Nordic�
 
 选择自己想要拷贝的例程，支持文字搜索：
 
-![image-20260728232757591](/imgs/安装nRF-Connect-SDK.assets/image-20260728232757591.png)
+![image-20260728232757591](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined6476e93dd4b311636396f52e8161cf71.png)
 
 这里选择`nrf/samples/bluetooth/peripheral_uart`
 
@@ -1003,7 +1003,7 @@ NCS支持以例程作为模板，复制并创建新的工程。这也是Nordic�
 >
 >Zephyr例程：https://docs.nordicsemi.com/bundle/ncs-latest/page/zephyr/samples/index.html
 >
->![image-20260728232951560](/imgs/安装nRF-Connect-SDK.assets/image-20260728232951560.png)
+>![image-20260728232951560](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined47e8dcf9f54ec3205b0153b6a3e09c73.png)
 >
 >此外，还有一些模块的例程不会出现在这个界面，但是可供参考：
 >
@@ -1026,7 +1026,7 @@ NCS支持以例程作为模板，复制并创建新的工程。这也是Nordic�
 
 直接把整个NCS和当前工程添加到同一个Workspace中：
 
-![image-20260728233127244](/imgs/安装nRF-Connect-SDK.assets/image-20260728233127244.png)
+![image-20260728233127244](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined2fec2369f9ff3ba228d8e249002fa88c.png)
 
 保存当前workspace：
 
@@ -1111,11 +1111,11 @@ Git History 提供了很方便的视图，可以看到每次commit都改动了�
 
 在 build 界面设置 Toolchain 和 SDK 版本：
 
-![image-20260728234058667](/imgs/安装nRF-Connect-SDK.assets/image-20260728234058667.png)
+![image-20260728234058667](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined8d9fb0ea133861213173cff6067ef94f.png)
 
 ### 选择 Board Target
 
-![image-20260728234158666](/imgs/安装nRF-Connect-SDK.assets/image-20260728234158666.png)
+![image-20260728234158666](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefineddac37e1e2efac36da2532dc7173d86c5.png)
 
 创建Build时，需要选择自己使用的板子，Zephyr自带许多厂商的开发板配置。
 
@@ -1134,7 +1134,7 @@ Git History 提供了很方便的视图，可以看到每次commit都改动了�
 >
 > SoC 的外设和核心寄存器地址空间被分为两个部分，**安全空间**和**非安全空间（ns）**。如下图深蓝色为**非安全空间**可访问的资源（不包含关键资源），浅蓝色为**只有安全空间可访问的资源**（包含关键资源）。部分外设可以通过两个空间访问，地址不同。
 >
-> ![image-20260728235946564](/imgs/安装nRF-Connect-SDK.assets/image-20260728235946564.png)
+> ![image-20260728235946564](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefinedabf4b4bec7fc828ecc3929ae023e50ff.png)
 >
 > 如果你的 board target 是 `cpuapp`这种，应用程序就是直接跑在安全空间； board target 是`cpuapp/ns`这种，应用程序就运行在非安全空间。
 >
@@ -1182,13 +1182,13 @@ Board target 实际是为固件编译服务的，它包含固件编译所需的�
 
 各种配置文件、追加配置文件，具体可参考[《理解Zephyr编译与配置系统》](https://jayant-tang.github.io/2022/12/2a39e705bff0/)：
 
-![image-20260729002603166](/imgs/安装nRF-Connect-SDK.assets/image-20260729002603166.png)
+![image-20260729002603166](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefinedadd2ad047f3f24ca1f476a1c0fa5d6bd.png)
 
 ### 编译选项
 
 可以设置Build目录，优化等级等等。Sysbuild可参考[《理解Zephyr编译与配置系统》](https://jayant-tang.github.io/2022/12/2a39e705bff0/)，NCS v2.7.0 引入，v2.8.0 起默认启用。
 
-![image-20260729002644008](/imgs/安装nRF-Connect-SDK.assets/image-20260729002644008.png)
+![image-20260729002644008](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined436eb6ed01870f817385bf5ca2a5d85a.png)
 
 ## 6.2. 命令行编译
 
@@ -1307,7 +1307,7 @@ west build -h
 在 VS Code 中，按`Ctrl + ~`，可以呼出终端。编译完毕后可以看到结果。
 
 
-![image-20260729020740869](/imgs/安装nRF-Connect-SDK.assets/image-20260729020740869.png)
+![image-20260729020740869](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined0becb35a62694cf770df38a7c9aebe9a.png)
 
 如果后续要再次编译这个target，可以在APPLICATIONS栏选中自己要构建的工程和target。然后在ACTIONS栏通过build**按钮**进行项目的构建。
 
@@ -1319,7 +1319,7 @@ west build -h
 
 这个上下文选择非常重要。 Kconfig配置、设备树、烧录按钮等都受到这个上下文选择的影响。
 
-![image-20260729020839324](/imgs/安装nRF-Connect-SDK.assets/image-20260729020839324.png)
+![image-20260729020839324](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined0940c2fd28409416109e1f523accdf48.png)
 
 ## 6.4. 编译输出文件
 
@@ -1356,7 +1356,7 @@ Zephyr系统中，在main函数之前，会有5个级别的初始化等级。在
 
 只需通过一根 USB 线连接，左上角电源开关打开：
 
-![image-20260729100740826](/imgs/安装nRF-Connect-SDK.assets/image-20260729100740826.png)
+![image-20260729100740826](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefinedd5abf8e2ce8bd8977eed9e91139c82fb.png)
 
 "VDD CURRENT MEASURE" 是 SoC VDD 供电通路，可以测量电流。不测量时，要接好跳线帽。
 
@@ -1364,9 +1364,9 @@ USB 旁边的 "DEBUGGER" 芯片是 Interface MCU，除了充当 J-Link 之外，
 
 Interface MCU 可以用 nRF Connect for Desktop 中的 Board Configurator 上位机来配置：
 
-![image-20260729021955759](/imgs/安装nRF-Connect-SDK.assets/image-20260729021955759.png)
+![image-20260729021955759](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined193b2d7844a317ab1a365fb891f25ade.png)
 
-![image-20260729101419783](/imgs/安装nRF-Connect-SDK.assets/image-20260729101419783.png)
+![image-20260729101419783](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined64415e8b0c7a7474bfe5aa2900f1300f.png)
 
 通过控制电子开关，Interface MCU 可以管理 SoC 的 GPIO 是否连接到对应的虚拟串口、LED、SWD、外部 QSPI Flash 等等。本例程保持默认即可。
 
@@ -1376,7 +1376,7 @@ nRF54 系列开发板还能精确调节供电电压，这是由板载的 nPM1300
 
 然后就可以在 VS Code 中识别到设备了：
 
-![image-20260729102209419](/imgs/安装nRF-Connect-SDK.assets/image-20260729102209419.png)
+![image-20260729102209419](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined9806d9ea67c75fd9958bd9eceb502466.png)
 
 或者用 nrfutil 查看设备：
 
@@ -1470,7 +1470,7 @@ west flash -d build
 
 连接的设备，可以看到主控芯片、串口以及RTT。
 
-![image-20260729103835999](/imgs/安装nRF-Connect-SDK.assets/image-20260729103835999.png)
+![image-20260729103835999](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined015fb07bca1e6a26cb08f337943f36c7.png)
 
 这里的串口是 SoC 上真实的物理串口，在开发板上通过 PCB 走线连接到 J-Link，然后 J-Link 把这个串口映射为 USB 虚拟串口。老款开发板可能只有 1 个 VCOM。
 
@@ -1478,13 +1478,13 @@ west flash -d build
 
 可以在 VS Code 中连接，一般 VCOM1 对应的是例程默认串口：
 
-![image-20260729104119016](/imgs/安装nRF-Connect-SDK.assets/image-20260729104119016.png)
+![image-20260729104119016](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined93923a1b95235157fe7ea7853916c49e.png)
 
 也可以用 nRF Connect for VS Code 的串口终端：
 
-![image-20260729104203963](/imgs/安装nRF-Connect-SDK.assets/image-20260729104203963.png)
+![image-20260729104203963](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefinedb87b6525869f7e0d8661b453787b9d6b.png)
 
-![image-20260729104242096](/imgs/安装nRF-Connect-SDK.assets/image-20260729104242096.png)
+![image-20260729104242096](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined8edc5568b19c156491348096ea7d7be8.png)
 
 VS Code 里的串口终端默认是 **Shell 模式**，类似 PuTTY。**按下键盘的按键就立即发送出去一个字符，不会显示自己发出了什么**。便于在这个串口上运行 uart shell。
 
@@ -1494,7 +1494,7 @@ nRF Connect for Desktop 里的串口助手两种模式都支持（如上图）�
 
 按下板子上的 Reset 按钮，就能看到串口启动 banner：
 
-![image-20260729104652881](/imgs/安装nRF-Connect-SDK.assets/image-20260729104652881.png)
+![image-20260729104652881](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined6e186ecc8e74c2b194a2dde6b50edfde.png)
 
 ## 9.2. 连接RTT
 
@@ -1519,15 +1519,15 @@ RTT 是 Segger 提供的日志调试手段，全称 Real-Time Transfer。SoC 将
 
 如下图再连接RTT：
 
-![image-20260729105102815](/imgs/安装nRF-Connect-SDK.assets/image-20260729105102815.png)
+![image-20260729105102815](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined2234af343c7a7ca3e7ca952ca8ac65db.png)
 
 选中应用核（Application）：
 
-![image-20260729105112410](/imgs/安装nRF-Connect-SDK.assets/image-20260729105112410.png)
+![image-20260729105112410](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefinedcc1f9f5cc313f82ce449996ae8c60dd0.png)
 
 能看到日志从 RTT 输出：
 
-![image-20260729105201484](/imgs/安装nRF-Connect-SDK.assets/image-20260729105201484.png)
+![image-20260729105201484](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefinedfd215b59008f842fecd6a4bb63e15ee6.png)
 
 ## 9.3. 测试 peripheral_uart 例程
 
@@ -1578,7 +1578,7 @@ Central 和 Peripheral 是 GAP 层的概念。在 GATT层，BLE 协议是 Client
 
 当一个工程**编译完毕后**，就可以在nRF插件中进行浏览了：
 
-![image-20260729110225867](/imgs/安装nRF-Connect-SDK.assets/image-20260729110225867.png)
+![image-20260729110225867](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined68baa5ec172fe77cc887b6af616464fb.png)
 
 Source File 中是所有**参与编译**的源码，Zephyr 并不是把所有源码都添加，而是根据 Kconfig 选项，通过 CMake 条件添加源码。其中 **Application** 中的是当前工程中的源码；**SDK** 中的是NCS中参与编译的源码。Generated 中的是工具链自动生成的一些代码（中断向量表、Kconfig 转换成宏等等)。
 
@@ -1588,13 +1588,13 @@ Source File 中是所有**参与编译**的源码，Zephyr 并不是把所有源
 
 点击上面的搜索按钮后，会自动跳转到 VS Code 搜索界面，并且已经自动填充好文件搜索范围：
 
-![image-20260729110536376](/imgs/安装nRF-Connect-SDK.assets/image-20260729110536376.png)
+![image-20260729110536376](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined6c030b399f79a672b4686533aa4e9f48.png)
 
 > 这个功能在Windows上不好用，因为搜索范围过滤条件太多时，Windows 会无法处理，并且非常慢
 
 在浏览和搜索的过程中，时刻注意自己选中的**工程上下文**是**整个工程**的 Build Target 还是**子工程**的 Build Target
 
-![image-20260729110657326](/imgs/安装nRF-Connect-SDK.assets/image-20260729110657326.png)
+![image-20260729110657326](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined5320ba9a7ab1fdebb9bdfa8396700bb1.png)
 
 以免影响后续的编译情况。
 
@@ -1622,9 +1622,9 @@ nRF Connect SDK (NCS) Add-ons 是一个公开可用的补充组件索引，旨�
 
 AI 训练了所有的 Nordic 官网资料，以及 DevZone 论坛中的帖子。可以用中文问他：
 
-![image-20260729111146363](/imgs/安装nRF-Connect-SDK.assets/image-20260729111146363.png)
+![image-20260729111146363](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined5bf1a0fedfa68411473f38fbdb80e1f9.png)
 
-![image-20260729111313166](/imgs/安装nRF-Connect-SDK.assets/image-20260729111313166.png)
+![image-20260729111313166](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined4cc26efb94b80d5fc31a81b8930a99a3.png)
 
 不过，网站访问有时候比较慢。即使科学的上网，又可能遇到反爬虫保护，体验不是很流畅。
 
@@ -1638,7 +1638,7 @@ https://docs.nordicsemi.com/
 
 目前最新的资料中心，可以通过技术或产品系列进行分类，查找想要的资料。芯片数据手册（Specification）、开发板说明都可以在这里查看。
 
-![image-20260729111613133](/imgs/安装nRF-Connect-SDK.assets/image-20260729111613133.png)
+![image-20260729111613133](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined53934d024fdcc9e65063954a889d3bbc.png)
 
 
 
@@ -1647,7 +1647,7 @@ https://docs.nordicsemi.com/
 https://nrfconnectdocs.nordicsemi.com/
 
 
-![image-20260729111724532](/imgs/安装nRF-Connect-SDK.assets/image-20260729111724532.png)
+![image-20260729111724532](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined23310eb770416a4c12a5b71fc4bfaf08.png)
 
 进入官网，首先看到右上角可以选择文档的版本，需要与SDK的版本对应。
 
@@ -1664,7 +1664,7 @@ https://nrfconnectdocs.nordicsemi.com/
 
 > Kconfig 也可以直接在 SDK 中搜索。比如，如果要搜索 `CONFIG_BT_PERIPHERAL` 是什么意思，可以搜索 `config BT_PERIPHERAL`，并过滤 `Kconfig*`，勾选大小写匹配和完整匹配：
 >
-> ![image-20260729112707679](/imgs/安装nRF-Connect-SDK.assets/image-20260729112707679.png)
+> ![image-20260729112707679](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefineda4194ae972e922bcaf9072fcbf309e0a.png)
 
 总之，NCS官网里面有大量的技术细节，在运行一个例程之前，一定要参照网站中该例程的说明进行操作。
 
