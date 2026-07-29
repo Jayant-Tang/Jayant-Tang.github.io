@@ -10,6 +10,7 @@ tags:
 - Kconfig
 - CMake
 categories: Zephyr
+sticky: 100
 cnblogs:
   postId: '17794813'
   url: https://www.cnblogs.com/jayant97/articles/17794813.html

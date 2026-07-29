@@ -9,7 +9,6 @@ tags:
 - Zephyr
 - DeviceTree
 categories: Zephyr
-sticky: 100
 cnblogs:
   postId: '17209392'
   url: https://www.cnblogs.com/jayant97/articles/17209392.html
