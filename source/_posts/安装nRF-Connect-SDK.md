@@ -41,14 +41,14 @@ cnblogs:
 >
 > 2025.5.12 更新：
 >
-> - NCS v3.0.0 支持打包下载，无需科学的上网从 GitHub 拉取
+> - NCS v3.0.0 支持打包下载，无需从 GitHub 拉取
 > - 新增 workspace 插件清理内容，解决 VS Code 弹窗问题
 > - 新增对 Windows 目录名长度限制的提醒
 
 nRF Connect SDK，简称 NCS，是 Nordic 最新的 SDK 平台。该平台支持 Nordic 的四大产品线：
 1.  **短距离 2.4G SoC 和功率放大器（PA）** ：Bluetooth LE, 802.15.4, 2.4G 私有协议（ESB）
 2.  **中距离 Wi-Fi** : Wi-Fi 6 收发器和SoC
-3.  **长距离蜂窝模组（ SiP ）**：CAT-M，CAT1-bis，CAT-NB，卫星通信（NTN）
+3.  **长距离蜂窝模组 (SiP)**：CAT-M，CAT1-bis，CAT-NB，卫星通信（NTN）
 4.  **电源管理芯片** ：多合一 PMIC。支持 Charger，电量计， BUCK / Boost，LDO / Load Switch，Ship Mode，GPIO，Watchdog，Hard Reset
 
 以上述硬件为基础，提供多种物联网、嵌入式、机器学习、低功耗穿戴等领域的技术方案和应用示例。
@@ -221,7 +221,7 @@ nrfutil upgrade
 
 > 其中，`completion` 子命令是用来帮助你安装**命令自动补全**脚本。这样以后敲 nrfutil 命令，按 Tab 键就能补全子命令，非常方便。
 >
-> 以 power shell 为例：
+> 以 powershell 为例：
 >
 > ```powershell
 > PS C:\Users\Jayant> nrfutil completion install powershell
@@ -303,7 +303,7 @@ VS Code的插件可以在VS Code插件市场搜索 **nRF Connect for VS Code Ext
 > 先在有网络的电脑上下载VSIX离线插件文件：
 > ![image-20250727162402886](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/a51c1f6d2f3fd4c6fa027cb35fb90145.png)
 >
-> 注意这个插件包只是个封装。封装里的每一个插件都要单独下载VSIX，并选择平台：
+> 注意这个插件包只是个合集。合集里的每一个插件都要单独下载VSIX，并选择平台：
 >
 > ![image-20250727162619019](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/461ecd55f552d8599ac52893b91c0894.png)
 >
@@ -312,10 +312,6 @@ VS Code的插件可以在VS Code插件市场搜索 **nRF Connect for VS Code Ext
 > ![image-20250727162713479](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/a323fc91f942a982240fb8f3e5c856c7.png)
 >
 > </details>
-
-
-
-> 有时 VS Code 会弹窗推荐一些插件，如 CMake，这些都是不需要的。
 
 ## Linux USB 规则
 
@@ -340,13 +336,13 @@ sudo dpkg -i nrf-udev_1.0.1-all.deb
 
 # 3. 安装编译工具链和SDK
 
-Zephyr 官方教程是把各种工具（python, cmake, ninja, gcc, git 等）直接安装到系统环境，再分别安装Zephyr工具链包（主要是编译器）和 SDK 源码包，设置环境变量。一台电脑只安装一个环境。
+Zephyr 官方教程是把各种工具（python, cmake, ninja, gcc, git 等）直接安装到系统环境，再分别安装Zephyr工具链包（主要是编译器）和 SDK 源码包，设置 `PATH` 环境变量。一台电脑只安装一个环境。
 
-NCS 的**工具链**是上述工具 + Zephyr 工具链包的合集。因此可以实现一台电脑上安装多个版本的工具链和 SDK，并且互不影响。
+NCS 的**工具链**是上述工具 + Zephyr 工具链包的合集，放在一个单独的目录内，而不是默认的全局 `PATH `环境变量。因此可以实现一台电脑上安装多个版本的工具链和 SDK，并且互不影响。
 
-## 方式一：从压缩包自动安装
+## 方式一（推荐）：从压缩包自动安装
 
-Toolchain 和 SDK 是独立的文件夹。Toolchain 包含 python, cmake, ninja, gcc 等工具，与电脑上本身的工具环境不冲突；SDK 包含源码、脚本、库等。
+Toolchain 和 SDK 是独立的文件夹。Toolchain 目录包含编译工具链，与电脑上本身的 `PATH` 软件环境不冲突；SDK 包含源码、脚本、预编译库等。
 
 Nordic 在对象存储服务器上提供了 Toolchain 和 SDK 的压缩包，方便用户下载加速。
 
@@ -376,13 +372,19 @@ Nordic 在对象存储服务器上提供了 Toolchain 和 SDK 的压缩包，方
 
 `tmp/`下是解压过程中的临时文件，会自动清理干净。
 
-`downloads/`下是原始工具链和SDK压缩包，不会自动清理。其中，SDK 的压缩包可以拷贝到其他电脑 NCS安装目录的 downloads 目录下，这样其他电脑安装时就不用再下载了；而 toolchain 的压缩包只能分享给相同架构的电脑中（Windows, Linux ARM64, Linux AARCH64, macOS 互不相同）。
+`downloads/`下是工具链和 SDK 的原始压缩包，不会自动清理。其中，SDK 的压缩包可以拷贝到其他电脑 NCS 安装路径的 `downloads/` 目录下，这样其他电脑安装时就会跳过下载，直接解压；而 toolchain 的压缩包只能分享给相同 CPU 架构的电脑中（Windows, Linux ARM64, Linux AARCH64, macOS 互不相同）。
 
 ### 修改默认安装路径
 
 如果你要修改默认安装路径，则 nrfutil 和 VS Code 插件**都要修改**。
 
-> macOS 不能修改默认安装路径
+> macOS 不能修改默认安装路径。
+>
+> Windows 注意事项：
+>
+> 1. 建议全英文路径，不能有空格；
+> 2. Windows 有路径长度限制，目录层级不能太深，建议就是 `D:\ncs`, `E:\ncs` 等等；
+> 3. 后续开发工程存放的磁盘必须和 NCS 在同一个磁盘。
 
 nrfutil：
 
@@ -393,12 +395,6 @@ nrfutil：
 VS Code：
 
 ![image-20260727153312403](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined9b8030e61b3f07d61c76fe2c7ea8b6a8.png)
-
-> Windows 注意事项：
->
-> 1. 建议全英文路径，不能有空格
-> 2. Windows 有路径长度限制，目录层级不能太深，建议就是 `D:\ncs`, `E:\ncs` 等等
-> 3. 后续开发工程存放的磁盘必须和 NCS 在同一个磁盘
 
 ### 下载并安装
 
@@ -470,8 +466,8 @@ nrf       v3.4.0       Installed   Installed
 >    Nordic 承诺从 v3.4.0 开始提供 5 年保证的长期支持版本。在支持期内：
 >
 >    - 持续修复安全漏洞和关键 Bug。
->    - LTS 将只会从 Zephyr 上游代码库中拉取关键 patch，包括安全修复和新的 boards 支持。跳过会影响应用层的patch。
->    - 用户在 LTS 内升级小版本时（v3.4.1, v3.4.2），无需修改应用层代码和配置方式（除非安全修复必须包含破坏性修改）。
+>    - LTS 将只会从 Zephyr 上游代码库中拉取关键 patch，包括安全修复和新的 boards 支持。会造成应用层代码破坏性修改的feature 将被跳过。
+>    - 用户在 LTS 内升级小版本时（v3.4.1, v3.4.2, ...），无需修改应用层代码和配置方式（除非安全修复必须包含破坏性修改）。
 >
 >    LTS 方便客户开发需要长期维护的产品，或需要应对欧盟网络弹性法案（CRA）等合规要求的场景。
 
@@ -489,27 +485,37 @@ nrf       v3.4.0       Installed   Installed
 
 等待安装完毕。
 
-## 方式二：手动拉取或者更新SDK
+## 方式二：从 GitHub 拉取或者更新
 
 虽然 Nordic 提供了压缩包下载，但还是有必要了解 Zephyr 标准的源码管理方式。
 
-这种方式是从 GitHub 拉取，无法受到国内镜像源加速，但可以精确切换到某个特定 commit 。确保你能稳定访问GitHub并拉取仓库再安装。
+这种方式是从 GitHub 拉取，无法受到国内镜像源加速，但可以精确切换到某个特定 commit 。**确保你能稳定访问 GitHub 并拉取仓库再考虑此方式。**
 
+如果你的需求是切换到某个特定的 commit, 也可以先用前面的压缩包方式下载一个最接近的版本，再用本节介绍的方法更新过去，这样只需要差分下载。
+
+> NCS 项目结构：
+>
 > ![image-20251019172612233](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefinedcc562f37c016c0fa4886687e93e7727b.png)
 >
 > ![image-20251019173045929](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined7b2c76779ac234225eaa29ee3e992833.png)
 >
-> NCS 项目托管在 GitHub，由多个仓库组成：https://github.com/nrfconnect。其中既有 Nordic 自己的代码仓库，也有开源仓库的 Fork 副本。Nordic 会持续开发优化，并贡献给开源社区，同时也从开源项目获取新功能。
+> NCS 项目[托管在 GitHub](https://github.com/nrfconnect)，由多个仓库组成。其中既有 Nordic 自己的代码仓库，也有上游开源仓库的 Fork 副本。Nordic 会持续开发优化，并贡献给开源社区，同时也从开源项目获取新功能。
 >
-> 其中，主仓库是 sdk-nrf。**主仓库的版本就是 NCS 版本**。每个主仓库中会通过 `west.yml` 文件记录其他子仓库的 GitHub 地址和版本，这样就可以用`west`命令一次性拉取全部仓库。
+> 其中，主仓库是 [sdk-nrf](https://github.com/nrfconnect/sdk-nrf)。**主仓库的版本就是 NCS 版本**。每个主仓库中会通过 `west.yml` 文件记录其他子仓库的 GitHub 地址和版本，这样就可以用`west`命令一次性拉取全部仓库。
 >
 > 此外，一些特殊的功能仓库（如 Edge AI，Apple Find-My，Garmin ANT+ 等）有自己的版本发布节奏，不会和 sdk-nrf 保持一致。这种情况下，这些仓库作为主仓库，然后 west 命令可以进一步拉取其指定版本的 sdk-nrf, sdk-zephyr 等其他仓库，这种情况下安装的就不是标准版 NCS 了，见[《nRF Connect SDK Add-ons介绍与国内安装实践》](https://jayant-tang.github.io/2026/04/40898fb9360c/)。
 
 ### 安装工具链
 
-工具链仍然要使用 Nordic 提供的压缩包。这里只单独安装工具链，不安装sdk。
+SDK 可以从 Github 拉取，但工具链仍然要使用 Nordic 提供的压缩包。这里只单独安装工具链，不安装 sdk。
 
 如果想要修改安装路径，记得先按照**方式一**中的步骤进行修改。
+
+> 默认安装路径为：
+>
+> - Windows：`C:\ncs`
+> - Linux: `~/ncs`
+> - macOS: `/opt/nordic/ncs/` ，不允许修改。
 
 使用 nrfutil 的方式：
 
@@ -522,6 +528,8 @@ nrfutil sdk-manager toolchain install --ncs-version v3.4.0
 ![image-20260727170013980](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefinedcdd8fdc46cdf1532a3b3b5478c4d09cb.png)
 
 ### 打开工具链环境
+
+后续需要在 toolchain 环境中进行操作。
 
 #### nrfutil 打开工具链环境
 
@@ -541,7 +549,7 @@ nrfutil sdk-manager toolchain launch --ncs-version v3.4.0 --shell
 
 ![image-20260727170653579](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefinedd46b1d5372a142eb465b713e786aaa74.png)
 
-默认情况下打开 toolchain 环境时，要同时指定 SDK 版本和 toolchain 版本。但是这里我们要安装新的 SDK，直接跳过 SDK 选择：
+默认情况下打开 toolchain 环境时，要同时指定 SDK 版本和 toolchain 版本。但是这里我们只是要安装新的 SDK，直接跳过 SDK 选择：
 
 ![image-20260727170923857](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined2d0d0b2d7e7b44621fa97a3e1b9347af.png)
 
@@ -554,6 +562,8 @@ nrfutil sdk-manager toolchain launch --ncs-version v3.4.0 --shell
 ![image-20260727171100460](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefinedcef028b7f57ba60724ae108eff115e31.png)
 
 ### 验证工具链环境
+
+查询 git 命令的路径：
 
 ```powershell
 # Windows Powershell
@@ -579,14 +589,24 @@ which git
 /home/jayant/ncs/toolchains/911f4c5c26/usr/local/bin/git
 ```
 
-可以发现 git 软件已经在使用 toolchain 文件夹内的实例，而不是系统默认软件安装路径里的。
+可以发现默认使用的 git 命令是 toolchain 文件夹内的实例，而不是系统默认软件安装路径里的。
 
 ### 从 GitHub 安装 NCS
+
+预期的目录结构：
+
+```text
+<install-dir>
+├── toolchains/
+│   ├── fbf7391cab/
+│   └── toolchains.json
+└── v3.4.0/
+```
 
 新安装SDK：
 
 ```powershell
-# 进入到 toolchain 的父目录，默认C:\ncs，或者${HOME}/ncs/
+# 进入到 NCS 安装目录
 cd D:\ncs
 
 # 创建并进入SDK文件夹
@@ -597,18 +617,19 @@ cd v3.4.0
 west init -m https://github.com/nrfconnect/sdk-nrf --mr v3.4.0
 ```
 
-> - 这一步等价于`git clone`，并创建`.west`配置文件夹
-> - 在执行`west`命令时，`west`会在当前目录和父目录中递归向上寻找`.west`文件夹，并使用其中的配置。因此千万不要乱搞在硬盘根目录创建什么`.west`文件夹，会导致整个盘都出问题，无法正常使用 west。
-> - 这一步如果下载失败想重新下载，**需要把创建的 v3.4.0 文件夹下的所有内容删除干净**，尤其是`.west`隐藏文件夹。然后再次执行前面的`west init ...`即可
+> - 这一步包含一次`git clone`，并且会创建`.west/`配置文件夹。在 Windows 资源管理器内，`.`开头的都是隐藏文件夹。
+> - 这一步如果下载失败想重新下载，**需要把创建的 v3.4.0 文件夹下的所有内容删除干净**，尤其是`.west/`隐藏文件夹。然后再次执行前面的 `west init ...` 即可
+
+主仓库 nrf 拉取成功后，继续安装其他仓库，会自动同步到 `nrf/west.yml`中记录的版本：
 
 ```powershell
-# 拉取其他子仓库，直接在当前目录下执行
+# 拉取其他子仓库
 west update
 ```
 
-> 由于国内网络DNS污染的原因，这一步也经常失败，但是没关系，每次`west update`都能下载一点点，如果失败了，就重复`west update`就行了。不需要像`west init`失败一样删除干净重新下载。
+> 由于国内网络的原因，这一步也经常失败，但是没关系，`west update` 本质上是多次`git fetch`，支持断点续传。如果失败了，就重复 `west update`就行了。不需要像 `west init`失败一样删除干净重新下载。
 >
-> 可以用个脚本循环执行，直到west update无报错。
+> 可以用个脚本循环执行，直到 `west update` 无报错。
 
 ```powershell
 # 安装成功后注册 CMake
@@ -625,8 +646,6 @@ west zephyr-export
 > 电脑上安装多个 SDK 时，这些注册是独立的条目，不会互相冲突。
 
 ### 切换SDK版本（更新或回退）
-
-> 即使是通过压缩包自动安装的方式，也可以用此方法 checkout 到指定版本
 
 按照以下步骤操作：
 
@@ -646,15 +665,14 @@ west zephyr-export
    > 一般来说，**开发者不要随便改动 SDK 中的代码和配置**，否则在切换版本的时候可能出问题。
 
 3. 检查 manifest 有无新版本
-   NCS 中，nrf为主仓库，nrf的版本即为整个SDK的版本
+   NCS 中，nrf 为主仓库，nrf 的版本即为整个SDK的版本
 
    ```powershell
    # 查看nrf仓库下有多少版本
-   cd nrf
    git fetch
    git tag  # 按键盘上下键翻阅，按q退出
    ```
-
+   
 4. 切换到自己想要的版本
    ```powershell
    # 检出想要的主仓库nrf版本
@@ -871,15 +889,18 @@ with board_yml.open('r', encoding='utf-8') as f:
 
 <details>
     <summary>[点击展开]</summary>
-2025.10.14 之前，nrfutil 压缩包自动安装（Pre-packaged）方式有个bug。由于 SDK 是在 Linux 环境下打包好的，在 Windows 下解压，会出现部分文件的权限从 755 强制转换为644，导致 git 状态不是 clean：
+
+
+
+2025.10.14 之前，nrfutil 压缩包自动安装（Pre-packaged）方式有个bug。由于 SDK 是在 Linux 环境下打包好的，在 Windows 下解压，会出现部分文件的权限从 755 强制转换为644，导致 git 状态不是 clean，有大量文件被视为修改：
 
 ![image-20250727164656643](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/8671cc395bf5de759f4ef80b0cbc20a4.png)
 
 ![image-20250727164717632](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/7957c29ba730bca0d3a49a98b30a3a98.png)
 
-并且，经过实测，即使在 git 全局配置忽略文件权限的变化也没用。必须在每个git子仓库都忽略文件权限的变化：
+经过实测，必须在每个 git 子仓库都忽略文件权限的变化。
 
-打开nRF Connect命令行：
+打开 nRF Connect 命令行：
 
 ![image-20250205000107113](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/8f02cfc623694bbb710701a565fb9a6a.webp)
 
@@ -904,10 +925,6 @@ west forall -c 'git submodule foreach --recursive git config core.filemode false
 # 4. 打开并浏览例程
 
 从VS Code 的一个全新窗口，选择**打开文件夹**：
-
-![image-20221209103137554](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/image-20221209103137554-1731044874928-20.webp)
-
-<center>或者：</center>
 
 ![image-20221209103240455](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/image-20221209103240455-1731044874929-21.webp)
 
@@ -938,22 +955,22 @@ west forall -c 'git submodule foreach --recursive git config core.filemode false
 >
 > `nrf`仓库的目录结构仿造`zephyr`仓库，也有`samples/`和`tests/`目录。`samples/`中有Nordic提供的软件库例程、Zephyr未收录的例程（如 nRF9160的LTE）等。
 
-我们选择`v3.4.0\nrf\samples\bluetooth\peripheral_uart`
+我们选择 `v3.4.0\nrf\samples\bluetooth\peripheral_uart`
 
 ![image-20250205012602448](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/image-20250205012602448.webp)
 
 编译例程的方式，参考后续章节。
 
-> 注意 Windows 有最大路径名长度限制。对于一些依赖路径比较深的工程，再叠加上 build 目录下还有源码层级结构，会编译失败。有以下解决方法：
+> 注意 Windows 有最大路径名长度限制。对于一些依赖路径比较深的工程，再叠加上 build 目录下还有源码层级结构，会编译失败。有 2 种解决方法：
 >
-> 1. 参考下一章节“以例程为模板创建新工程”，并把工程放到更浅的路径。
+> - 参考下一章节“以例程为模板创建新工程”，并把工程放到更浅的路径。
+>- 在编译时，用`-d`参数指定 build 目录到更浅的层级。例如：
+> 
+> ```
+> west build -b nrf54l15dk/nrf54l15/cpuapp -d D:\ncs\build nrf/samples/bluetooth/peripheral_uart
+> ```
 >
-> 2. 在编译时，用`-d`参数指定 build 目录到更浅的层级。例如：
->    ```
->    west build -b nrf54l15dk/nrf54l15/cpuapp -d D:\ncs\build nrf/samples/bluetooth/peripheral_uart
->    ```
->
->    工程路径是 `nrf/samples/bluetooth/peripheral_uart`，build 路径是 `D:\ncs\build`。
+> 工程路径是 `nrf/samples/bluetooth/peripheral_uart`，build 路径是 `D:\ncs\build`。
 
 # 5. 以例程为模板创建新工程
 
@@ -961,7 +978,7 @@ west forall -c 'git submodule foreach --recursive git config core.filemode false
 
 如果我们只是打开例程，例程的文件夹还是在 NCS 仓库内部，受到 NCS  的 git 仓库的管理。如果想自己用 git 管理自己项目的版本，就需要**创建**新工程。
 
-NCS支持把例程当作模板，复制到NCS外部，并创建新工程。这种独立在 SDK 外部的工程在 Zephyr 中叫做 freestanding 工程。
+NCS 支持把例程当作模板，复制到 NCS 外部，并创建新工程。这种独立在 SDK 外部的工程在 Zephyr 中叫做 freestanding 工程。
 
 > 新建工程还有一个用处：**Windows上有目录名长度限制**。在一些路径比较深的例程里进行编译时，会出现长度不足导致编译系统报错找不到某个SDK文件的情况。因此，把例程作为模板拷贝到比较浅的目录中进行开发，可以避免此问题。
 >
@@ -975,7 +992,7 @@ NCS支持以例程作为模板，复制并创建新的工程。这也是Nordic�
 
 ![image-20231027154653607](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/image-20231027154653607-1731044874929-24.webp)
 
-在 VS Code中，选择左侧 nRF Connect for VS Code 插件，进入 Welcome 页面。然后点击`Create a new application`创建新工程。
+在 VS Code 中，选择左侧 nRF Connect for VS Code 插件，进入 Welcome 页面。然后点击 `Create a new application` 创建新工程。
 
 ![image-20250205012805758](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/image-20250205012805758.webp)
 
@@ -983,7 +1000,7 @@ NCS支持以例程作为模板，复制并创建新的工程。这也是Nordic�
 
 ![image-20260728232706341](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefineda9fe727db15e3e58ff7368279e424d68.png)
 
-选择“Copy a sample”
+选择 “Copy a sample”
 
 ![image-20250205012842271](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/image-20250205012842271.webp)
 
@@ -1062,40 +1079,7 @@ NCS支持以例程作为模板，复制并创建新的工程。这也是Nordic�
 
 如此一来，只在当前 workspace，这个插件就被关闭了。同理，其他插件也可以这样关闭，你不再会受到这些插件打扰。同时，在其他 workspace，不影响你继续正常使用那些插件。
 
-## 5.4. 使用git跟踪你的代码修改
 
-如果你从没用过 git，非常建议使用去学习一下，它极大的方便了代码的管理。如果已经在使用，可以跳过本节。
-
-<details>
-    <summary>[点击展开]</summary>
-
-
-> 安装完 git 后，需要先配置用户名和邮箱。这个用户名和邮箱不是登陆什么网站用的，而是一个签名，在提交代码时用于标记这段代码是谁提交的。这个配置存在你电脑的本地，并且是**全局**的，对所有git仓库都有效。例如：
->
-> ```bash
-> git config --global user.name "Jayant.Tang"
-> git config --global user.email "xxxxx@xxxxx"
-> ```
-
-用 nRF Connect for VS Code 新建的工程都会自动初始化 git 仓库，如下是 .gitignore 文件：
-
-![image-20231027155922698](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/image-20231027155922698-1731044874930-31.webp)
-
-你可以把`.vscode/`和 `*.code-workspace`添加到其中。
-
-在 VS Code 中使用 git：
-
-如果安装了 git history 插件，就可以查看提交历史：
-
-![image-20221122235338251](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/image-20221122235338251-1731044874930-32.webp)
-
-Git History 提供了很方便的视图，可以看到每次commit都改动了哪些代码和配置（左侧是旧的，右侧是新的）：
-
-![image-20221122235416865](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/image-20221122235416865-1731044874930-33.webp)
-
-​	更多Git的使用，可以去网上了解其他教程。本文不再赘述。
-
-</details>
 
 # 6. 编译工程
 
@@ -1104,6 +1088,8 @@ Git History 提供了很方便的视图，可以看到每次commit都改动了�
 ### 创建一个编译目标（Build Target）
 
 所谓编译目标就是在同一套代码下，可能根据不同的配置项（Debug / Release，不同的优化级别， 不同的工作模式等等），编译出不同的可执行文件。一个项目下可以创建多个编译目标。
+
+编译过程中的所有中间产物，和最终的固件都存放在这个编译目标的目录下。
 
 ![image-20250205014115409](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/image-20250205014115409.webp)
 
@@ -1626,7 +1612,7 @@ AI 训练了所有的 Nordic 官网资料，以及 DevZone 论坛中的帖子。
 
 ![image-20260729111313166](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined4cc26efb94b80d5fc31a81b8930a99a3.png)
 
-不过，网站访问有时候比较慢。即使科学的上网，又可能遇到反爬虫保护，体验不是很流畅。
+不过，网站访问有时候比较慢。即使你有代理，又可能遇到反爬虫保护，体验不是很流畅。
 
 可以考虑让自己的 AI Agent 接入 Nordic MCP 知识库，这样用起来比较方便。参考：[在AI辅助编程中接入Nordic知识库——Nordic MCP实战](https://jayant-tang.github.io/2026/06/d3853d11acc7/)
 
