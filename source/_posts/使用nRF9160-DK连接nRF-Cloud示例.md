@@ -14,9 +14,6 @@ archive: true
 cnblogs:
   postId: '17206080'
   url: https://www.cnblogs.com/jayant97/articles/17206080.html
-  lastPublishedAt: '2026-07-06T18:20:52+08:00'
-  sourceHash: sha256:5aba68d80c91b512e55e2a87d8dc247d686d1894352f3ebbd095588f54494b9d
-  status: imported
   postType: Article
 ---
 

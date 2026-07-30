@@ -7,20 +7,18 @@ from pathlib import Path
 from typing import Any
 
 from cnblogs_common import (
-    compute_source_hash,
+    build_article_url,
     ensure_blog_id,
     extract_remote_post_date,
     extract_remote_post_id,
     extract_remote_post_title,
     extract_remote_post_url,
     load_config_from_env,
-    load_index,
     load_markdown_post,
     make_mapping_record,
     match_remote_posts_by_title,
     normalize_title,
     relative_posix_path,
-    save_index,
     list_remote_posts,
     write_mapping_to_front_matter,
     dump_markdown_post,
@@ -35,7 +33,6 @@ def parse_args() -> argparse.Namespace:
         subparser = subparsers.add_parser(command)
         subparser.add_argument("--workspace-root", default=".")
         subparser.add_argument("--posts-dir", default="source/_posts")
-        subparser.add_argument("--index", default=".cnblogs/posts-index.json")
         subparser.add_argument("--candidates", default=".cnblogs/import-candidates.json")
 
     return parser.parse_args()
@@ -44,7 +41,7 @@ def parse_args() -> argparse.Namespace:
 def load_local_posts(posts_dir: Path, workspace_root: Path) -> list[dict[str, Any]]:
     posts: list[dict[str, Any]] = []
     for path in sorted(posts_dir.rglob("*.md")):
-        front_matter, body = load_markdown_post(path)
+        front_matter, _ = load_markdown_post(path)
         title = str(front_matter.get("title", "")).strip()
         posts.append(
             {
@@ -54,7 +51,6 @@ def load_local_posts(posts_dir: Path, workspace_root: Path) -> list[dict[str, An
                 "normalizedTitle": normalize_title(title),
                 "date": str(front_matter.get("date", "") or ""),
                 "frontMatter": front_matter,
-                "body": body,
             }
         )
     return posts
@@ -88,14 +84,12 @@ def build_suggestion(local_post: dict[str, Any], remote_post: dict[str, Any], co
 def scan_candidates(args: argparse.Namespace) -> int:
     workspace_root = Path(args.workspace_root).resolve()
     posts_dir = (workspace_root / args.posts_dir).resolve()
-    index_path = (workspace_root / args.index).resolve()
     candidates_path = (workspace_root / args.candidates).resolve()
 
     config = load_config_from_env()
     ensure_blog_id(config)
     local_posts = load_local_posts(posts_dir, workspace_root)
     remote_posts = list_remote_posts(config)
-    index_data = load_index(index_path)
 
     matched_remote_ids: set[str] = set()
     matches: list[dict[str, Any]] = []
@@ -103,13 +97,10 @@ def scan_candidates(args: argparse.Namespace) -> int:
     unmatched_local: list[dict[str, Any]] = []
 
     for post in local_posts:
-        index_record = index_data.get("posts", {}).get(post["relativePath"], {})
         front_meta = post["frontMatter"].get("cnblogs") or {}
         existing_post_id = ""
         if isinstance(front_meta, dict):
             existing_post_id = str(front_meta.get("postId") or "")
-        if not existing_post_id and isinstance(index_record, dict):
-            existing_post_id = str(index_record.get("postId") or "")
 
         if existing_post_id:
             matched_remote_ids.add(existing_post_id)
@@ -214,13 +205,11 @@ def scan_candidates(args: argparse.Namespace) -> int:
 
 def apply_candidates(args: argparse.Namespace) -> int:
     workspace_root = Path(args.workspace_root).resolve()
-    index_path = (workspace_root / args.index).resolve()
     candidates_path = (workspace_root / args.candidates).resolve()
     if not candidates_path.exists():
         raise FileNotFoundError(f"Candidate file not found: {candidates_path.as_posix()}")
 
     payload = json.loads(candidates_path.read_text(encoding="utf-8"))
-    index_data = load_index(index_path)
     config = load_config_from_env()
     ensure_blog_id(config)
 
@@ -295,23 +284,20 @@ def apply_candidates(args: argparse.Namespace) -> int:
     for item in accepted:
         local_path = (workspace_root / item["localPath"]).resolve()
         front_matter, body = load_markdown_post(local_path)
+        front_meta = front_matter.get("cnblogs") or {}
+        if isinstance(front_meta, dict) and front_meta.get("postId"):
+            continue
+
+        post_id = str(item["remotePostId"])
         record = make_mapping_record(
-            title=str(front_matter.get("title") or item["localTitle"]),
-            post_id=str(item["remotePostId"]),
-            url=str(item["remoteUrl"] or ""),
-            source_hash=compute_source_hash(front_matter, body),
-            status="imported",
+            post_id=post_id,
+            url=str(item["remoteUrl"] or build_article_url(config.blog_app, post_id)),
         )
-        if not record["url"]:
-            record["url"] = extract_remote_post_url({"postId": record["postId"]}, config.blog_app)
 
         write_mapping_to_front_matter(front_matter, record)
         local_path.write_text(dump_markdown_post(front_matter, body), encoding="utf-8")
-        update_index = index_data.setdefault("posts", {})
-        update_index[item["localPath"]] = record
         applied += 1
 
-    save_index(index_path, index_data)
     print(f"Applied {applied} mapping records.")
     return 0
 

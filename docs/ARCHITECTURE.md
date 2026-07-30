@@ -9,13 +9,15 @@ flowchart LR
   Dev[本地编辑 Markdown] --> Push[git push master]
   Push --> CI[GitHub Actions]
   CI --> Cnblogs[博客园同步]
-  Cnblogs --> Backfill[元数据回写 commit]
+  Cnblogs --> FirstMapping{"首次建立映射?"}
+  FirstMapping -->|是| Backfill[postId 回写 commit]
+  FirstMapping -->|否| Build[hexo generate]
   Backfill --> Build[hexo generate]
   Build --> Pages[GitHub Pages Actions]
   Pages --> Site[jayant-tang.github.io]
 ```
 
-> 回写提交带 `[skip ci]`，且 `GITHUB_TOKEN` 推送默认不触发新 workflow，避免循环构建。
+> 只有文章首次获得博客园 `postId` 时才会回写。回写提交带 `[skip ci]`，且 `GITHUB_TOKEN` 推送默认不触发新 workflow，避免循环构建。
 
 两条发布链路在一次 CI 中完成：
 
@@ -24,7 +26,7 @@ flowchart LR
 
 ## 日常工作流
 
-CI 负责发布到博客园，并在成功同步后**自动把元数据回写提交到仓库**（commit message 带 `[skip ci]`，避免 workflow 循环触发）。
+CI 负责发布到博客园。新文章首次同步成功后会把稳定映射写回仓库；已有映射的文章只更新远端，不修改仓库文件。
 
 ### 新文章首次发布
 
@@ -32,7 +34,7 @@ CI 负责发布到博客园，并在成功同步后**自动把元数据回写提
 2. `git add / commit / push`
 3. 等 GitHub Actions 完成：
    - 把文章发布到博客园
-   - 自动回写 `cnblogs.postId / url / sourceHash` 等到 front matter 和 `.cnblogs/posts-index.json`
+   - 自动回写 `cnblogs.postId / url / postType` 到文章 front matter
    - 以 `chore(cnblogs): backfill metadata [skip ci]` 提交并 push 回仓库
 
 一般不需要再本地手动跑同步脚本。若 CI 不可用，可本地执行：
@@ -49,16 +51,15 @@ python tools/cnblogs/cnblogs_sync.py \
 
 1. 改正文
 2. `git add / commit / push`
-3. 等 CI 自动更新博客园对应文章，并回写最新元数据
+3. 等 CI 根据 front matter 中的 `postId` 更新博客园对应文章
 
-若正文与关键元数据未变（`sourceHash` 相同），脚本会跳过远端更新，也不会产生元数据回写提交。
+已有 `postId` 的文章同步后不会产生元数据回写提交。
 
 ### 不会触发博客园同步的 push
 
-以下变更**不会**进入博客园同步，也不会触发元数据回写：
+以下变更**不会**进入博客园同步：
 
 - 只改了 Hexo 配置、主题、link 页等非文章内容
-- 只改了 `.cnblogs/posts-index.json` 或其他 `.cnblogs/` 辅助文件
 - push 的 commit 中没有 `source/_posts/*.md` 的 added/modified
 
 ### 不发布到博客园的文章
@@ -108,24 +109,17 @@ cnblogs:
   postType: Article
   postId:
   url:
-  lastPublishedAt:
-  sourceHash:
-  status:
 ```
 
 字段说明：
 
 - `postId`：博客园文章 ID
-- `published`：可选字段；只在需要禁止同步时设为 `false`。不写时默认允许同步，成功发布状态由 `postId / url / lastPublishedAt / sourceHash / status` 回写记录
+- `published`：可选字段；只在需要禁止同步时设为 `false`。不写时默认允许同步
 - `postType`：当前默认为 `Article`
 - `url`：博客园文章链接
-- `lastPublishedAt`：最近一次成功同步时间
-- `sourceHash`：当前本地正文和关键元数据的哈希，用于跳过未变化文章
-- `status`：如 `synced`、`imported`
 
 辅助文件：
 
-- `.cnblogs/posts-index.json`：总索引，便于 CI 和批量检查
 - `.cnblogs/import-candidates.json`：历史文章匹配候选清单
 
 ## GitHub Actions 行为
@@ -151,14 +145,13 @@ cnblogs:
    - 若 payload 未带文件列表（常见），回退为 `git -c core.quotepath=false diff before..after -- source/_posts`，避免中文文件名被转义后无法匹配路径
 2. 若没有文章变更，跳过博客园同步，直接构建并部署站点
 3. 若有文章变更，调用 `tools/cnblogs/cnblogs_sync.py` 同步到博客园
-4. 若同步导致 front matter 或 `.cnblogs/posts-index.json` 有改动，CI 会以 `[skip ci]` 提交并 push 回仓库；全跳过时不会产生回写提交
+4. 若新文章首次获得 `postId`，CI 会把稳定映射写入 front matter，并以 `[skip ci]` 提交后 push 回仓库
 5. 同步（或跳过同步）完成后执行 `npm run build`，并通过 GitHub Pages Actions 发布 `public/`
 
 说明：
 
-- CI 使用默认 `--write-back`（写回 front matter 和索引）
-- 仅 `cnblogs` 元数据变更、正文未变时，因 `sourceHash` 不包含元数据字段，不会重复发文
-- 所有文章均被跳过时，不会改写 `posts-index.json`，也不会产生回写提交
+- CI 使用默认 `--write-back`，但只为没有 `postId` 的文章写回首次映射
+- 已有 `postId` 的文章每次进入同步候选时都会更新对应博客园文章，且不会修改本地文件
 
 ### 手动触发 `workflow_dispatch`
 

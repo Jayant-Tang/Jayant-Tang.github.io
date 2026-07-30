@@ -207,14 +207,13 @@ jobs:
         run: |
           python tools/cnblogs/cnblogs_sync.py \
             --workspace-root . \
-            --index .cnblogs/posts-index.json \
             --changed-file-list "${{ steps.cnblogs_action.outputs.changed_file }}"
 
       - name: Commit cnblogs metadata backfill
         if: steps.cnblogs_action.outputs.action != 'import_scan' && steps.cnblogs_action.outputs.count != '0'
         run: |
-          if [ -n "$(git status --porcelain -- source/_posts .cnblogs/posts-index.json)" ]; then
-            git add source/_posts .cnblogs/posts-index.json
+          if [ -n "$(git status --porcelain -- source/_posts)" ]; then
+            git add source/_posts
             git commit -m "chore(cnblogs): backfill metadata [skip ci]" || true
             git push origin master
           fi

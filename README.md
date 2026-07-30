@@ -8,7 +8,7 @@
 
 - **静态博客**：Hexo + Fluid 主题，支持标签、分类、归档、本地搜索、离线缓存（`hexo-offline` + Service Worker，部署后自动刷新）
 - **自动部署**：推送到 `master` 后，GitHub Actions 构建并通过官方 Pages Actions 发布
-- **博客园同步**：同一次 CI 可将变更文章同步到博客园，并自动回写 `postId` 等元数据
+- **博客园同步**：同一次 CI 可将变更文章同步到博客园；新文章首次发布后自动回写 `postId`
 - **评论**：Giscus（GitHub Discussions）
 - **数学公式**：Markdown-it + KaTeX
 
@@ -44,7 +44,7 @@ source/                 页面、静态资源（含 css/、js/）
 scripts/                Hexo 插件脚本（边栏、字数统计等）
 injects/                Fluid 主题注入模板
 docs/                   架构与运维文档
-.cnblogs/               博客园同步索引与辅助文件
+.cnblogs/               博客园历史文章匹配辅助文件
 _config.yml             Hexo 主配置
 _config.fluid.yml       主题配置
 hexo-offline.config.cjs PWA / Service Worker 配置

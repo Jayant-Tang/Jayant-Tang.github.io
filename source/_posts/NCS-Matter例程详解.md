@@ -12,9 +12,6 @@ categories:
 cnblogs:
   postId: '18650736'
   url: https://www.cnblogs.com/jayant97/articles/18650736
-  lastPublishedAt: '2026-07-06T18:20:52+08:00'
-  sourceHash: sha256:219b20142f8e9e9b4a9fd089074df5f1fd65b9a6cf27af7743a7525a3ac8a4a7
-  status: imported
   postType: Article
 ---
 

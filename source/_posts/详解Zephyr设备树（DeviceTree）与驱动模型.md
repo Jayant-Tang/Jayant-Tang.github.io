@@ -12,9 +12,6 @@ categories: Zephyr
 cnblogs:
   postId: '17209392'
   url: https://www.cnblogs.com/jayant97/articles/17209392.html
-  lastPublishedAt: '2026-07-06T18:20:52+08:00'
-  sourceHash: sha256:b78b931e517fbe75e25f91f1108bf7554be33054a9ca8d00596813dd2448e904
-  status: imported
   postType: Article
 ---
 

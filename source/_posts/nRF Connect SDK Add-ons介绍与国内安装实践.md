@@ -12,9 +12,6 @@ typora-root-url: ./..
 cnblogs:
   postId: '19906529'
   url: https://www.cnblogs.com/jayant97/articles/19906529
-  lastPublishedAt: '2026-07-06T18:29:40+08:00'
-  sourceHash: sha256:e00b1132a36440252f7a7cce770f4f098d0bea37f458f0bf20d21b527c4c7f22
-  status: imported
   postType: Article
 ---
 

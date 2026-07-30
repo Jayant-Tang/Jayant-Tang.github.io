@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import json
-import hashlib
 import os
 import re
 import urllib.error
@@ -16,7 +15,6 @@ from typing import Any
 import yaml
 
 
-INDEX_SCHEMA_VERSION = 1
 FRONT_MATTER_RE = re.compile(r"^---\s*\r?\n(.*?)\r?\n---\s*\r?\n?", re.DOTALL)
 
 
@@ -114,39 +112,6 @@ def ensure_cnblogs_meta(front_matter: dict[str, Any]) -> dict[str, Any]:
     return cnblogs_meta
 
 
-def load_index(index_path: Path) -> dict[str, Any]:
-    if not index_path.exists():
-        return {
-            "schemaVersion": INDEX_SCHEMA_VERSION,
-            "generatedAt": None,
-            "posts": {},
-        }
-
-    data = json.loads(index_path.read_text(encoding="utf-8"))
-    if not isinstance(data, dict):
-        raise ValueError(f"Index file {index_path.as_posix()} must contain a JSON object")
-    data.setdefault("schemaVersion", INDEX_SCHEMA_VERSION)
-    data.setdefault("generatedAt", None)
-    data.setdefault("posts", {})
-    if not isinstance(data["posts"], dict):
-        raise ValueError(f"Index file {index_path.as_posix()} field `posts` must be an object")
-    return data
-
-
-def save_index(index_path: Path, index_data: dict[str, Any]) -> None:
-    index_path.parent.mkdir(parents=True, exist_ok=True)
-    index_data["generatedAt"] = now_iso()
-    index_path.write_text(
-        json.dumps(index_data, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
-    )
-
-
-def update_index_record(index_data: dict[str, Any], relative_path: str, record: dict[str, Any]) -> None:
-    posts = index_data.setdefault("posts", {})
-    posts[relative_path] = record
-
-
 def normalize_title(title: str) -> str:
     normalized = title.casefold().strip()
     normalized = re.sub(r"\s+", "", normalized)
@@ -220,20 +185,6 @@ def xmlrpc_datetime(value: Any) -> xmlrpc.client.DateTime | None:
     if parsed is None:
         return None
     return xmlrpc.client.DateTime(parsed)
-
-
-def compute_source_hash(front_matter: dict[str, Any], body: str) -> str:
-    payload = {
-        "title": front_matter.get("title"),
-        "date": str(front_matter.get("date", "")),
-        "categories": as_list(front_matter.get("categories")),
-        "tags": as_list(front_matter.get("tags")),
-        "body": body,
-    }
-    digest = hashlib.sha256(
-        json.dumps(payload, ensure_ascii=False, sort_keys=True).encode("utf-8")
-    ).hexdigest()
-    return f"sha256:{digest}"
 
 
 def make_metaweblog_server(config: CnblogsConfig) -> xmlrpc.client.ServerProxy:
@@ -546,21 +497,13 @@ def match_remote_posts_by_title(
 
 def make_mapping_record(
     *,
-    title: str,
     post_id: str,
     url: str,
-    source_hash: str,
-    status: str,
     post_type: str = ARTICLE_POST_TYPE_NAME,
-    last_published_at: str | None = None,
 ) -> dict[str, Any]:
     return {
-        "title": title,
         "postId": str(post_id),
         "url": url,
-        "lastPublishedAt": last_published_at or now_iso(),
-        "sourceHash": source_hash,
-        "status": status,
         "postType": post_type,
     }
 
@@ -569,9 +512,6 @@ def write_mapping_to_front_matter(front_matter: dict[str, Any], record: dict[str
     cnblogs_meta = ensure_cnblogs_meta(front_matter)
     cnblogs_meta["postId"] = str(record["postId"])
     cnblogs_meta["url"] = record["url"]
-    cnblogs_meta["lastPublishedAt"] = record["lastPublishedAt"]
-    cnblogs_meta["sourceHash"] = record["sourceHash"]
-    cnblogs_meta["status"] = record["status"]
     cnblogs_meta["postType"] = record.get("postType", ARTICLE_POST_TYPE_NAME)
 
 

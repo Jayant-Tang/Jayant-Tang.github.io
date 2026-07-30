@@ -12,9 +12,6 @@ categories: Nordic
 cnblogs:
   postId: '19166250'
   url: https://www.cnblogs.com/jayant97/articles/19166250
-  lastPublishedAt: '2026-07-06T18:20:52+08:00'
-  sourceHash: sha256:add8dfda8c65b4bd8bbed93af10ef38c1c7a58ba083e177e79bc309efc2cdccb
-  status: imported
   postType: Article
 ---
 

@@ -13,9 +13,6 @@ sticky: 1000
 cnblogs:
   postId: '17794804'
   url: https://www.cnblogs.com/jayant97/articles/17794804.html
-  lastPublishedAt: '2026-07-30T14:50:37+08:00'
-  sourceHash: sha256:0b196f441383efad459d694d09c1b9091643e108c288a364506cb41d36b437f9
-  status: synced
   postType: Article
 ---
 

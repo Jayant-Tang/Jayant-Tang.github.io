@@ -12,9 +12,6 @@ categories: WiFi
 cnblogs:
   postId: '21180787'
   url: https://www.cnblogs.com/jayant97/articles/21180787
-  lastPublishedAt: '2026-07-06T18:39:19+08:00'
-  sourceHash: sha256:025f28056885fbacf5c3612e880d1437284da7743b0b55710385db84a48c9a22
-  status: synced
   postType: Article
 ---
 

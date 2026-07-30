@@ -10,7 +10,4 @@ cnblogs:
   postType: Article
   postId:
   url:
-  lastPublishedAt:
-  sourceHash:
-  status:
 ---
