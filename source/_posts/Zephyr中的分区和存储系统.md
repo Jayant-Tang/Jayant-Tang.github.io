@@ -103,7 +103,7 @@ Zephyr 提供了存储系统从硬件驱动到应用层的完整解决方案，�
 
 目前最常见的 MCU 内部存储器。许多常见的SPI/QSPI接口存储器也是NOR Flash。
 
-用浮栅 MOSFET 的栅极存储电荷状态代表`0`和`1`。由于删极浮空，周围电绝缘，因此可以长期保存。如果要改变其0和1状态，需要外部施加电压，用一些半导体物理的方法来改变。
+用浮栅 MOSFET 的栅极存储电荷状态代表`0`和`1`。由于栅极浮空，周围电绝缘，因此可以长期保存。如果要改变其0和1状态，需要外部施加电压，用一些半导体物理的方法来改变。
 
 存储特性：
 
@@ -191,11 +191,11 @@ Zephyr 不希望应用层代码直接关心“这是片内 flash 还是片外 fl
 - QSPI NOR Flash 驱动：`flash_mspi_nor.c`, `nrf_qspi_nor.c`
 
   > - 最新的 Zephyr Muti-bit SPI 支持通用的多位 SPI（如 Quad SPI、Octal SPI 等），支持命令相、地址相和数据相的阶梯式高级传输，是标准驱动，`flash_mspi_nor.c ` 就是按照 MSPI 标写的驱动 。54L15 的 sQSPI （用 RISC-V 核模拟的软件QSPI）可以支持这个驱动。
-  > - nRF52/nRF53 系列的硬件 QSPI 有一定限制，早期的 Zephyr 版本没有MSPI 驱动都没有定义。而是单独为 QSPI NOR Flash 提供了`nrf_qspi_nor.c`驱动。
+  > - nRF52/nRF53 系列的硬件 QSPI 有一定限制，并且早期的 Zephyr 版本没有MSPI 驱动。因此 Nordic 单独为 QSPI NOR Flash 提供了`nrf_qspi_nor.c`驱动。
 
 ## 查看当前工程所用的驱动
 
-首先，要选择一个用到了存储器的例程。并不是所有例程都有读写内部/外部 NVM的功能，这里用 `nrf/samples/bluetooth/peripheral_uart` 例程举例。因为这个 BLE 例程支持蓝牙绑定，我们知道蓝牙绑定信息是需要永久存储的，因此它一定用到了 Flash 驱动。
+首先，要选择一个**用到了存储系统的例程**。并不是所有例程都有读写内部/外部 NVM的功能，这里用 `nrf/samples/bluetooth/peripheral_uart` 例程举例。因为这个 BLE 例程支持蓝牙绑定，我们知道蓝牙绑定信息是需要永久存储的，因此它一定用到了 Flash 驱动。
 
 首先，确保 NCS 和你的工程在同一个 VS Code workspace。在 nRF Connect for VS Code 插件中，先选中你的 build 下想查看的镜像。然后，在 Source Files 中选中 SDK，路径为`zephyr/drivers/flash/`。
 
@@ -212,7 +212,7 @@ zephyr_library_sources_ifdef(CONFIG_SOC_FLASH_NRF_RRAM soc_flash_nrf_rram.c)
 zephyr_library_sources_ifdef(CONFIG_SPI_NOR spi_nor.c)
 ```
 
-其中，`CONFIG_SOC_FLASH_NRF_RRAM` 和 `CONFIG_SPI_NOR`这两个选项是被 `CONFIG_FLASH=y`导入的。在顶层的`v3.4.0/zephyr/drivers/flash/Kconfig`中，引用了两个子菜单：
+其中，`CONFIG_SOC_FLASH_NRF_RRAM` 和 `CONFIG_SPI_NOR` 这两个选项是被 `CONFIG_FLASH=y` 导入的。在顶层的`v3.4.0/zephyr/drivers/flash/Kconfig`中，引用了两个子菜单：
 
 ```Kconfig
 if FLASH
@@ -226,7 +226,9 @@ source "drivers/flash/Kconfig.nrf_rram"
 endif # FLASH
 ```
 
-而这两个菜单里面，都会根据设备树自动开启对应的CONFIG。以 SPI NOR 为例：
+而这两个菜单里面，都会根据设备树自动开启对应的 CONFIG。
+
+这里看看 `CONFIG_SPI_NOR` 是如何被打开的：
 
 ```Kconfig
 menuconfig SPI_NOR
@@ -242,9 +244,11 @@ menuconfig SPI_NOR
 
 ```
 
-因为我们选的板子`nrf54l15dk/nrf54l15/cpuapp`默认的的设备树配置里刚好有一个符合条件的 Flash，并且被使能了：
+`menuconfig SPI_NOR`定义了`CONFIG_SPI_NOR`这个选项存在，并且只要 `depends` 均为 `y`，则此选项默认为`y`。
 
-`v3.4.0/zephyr/boards/nordic/nrf54l15dk/nrf54l_05_10_15_cpuapp_common.dtsi`
+它的依赖项就是看设备树里有没有至少1个`compatible = "jedec,spi"` 的设备被使能了。
+
+由于我们选的板子 `nrf54l15dk/nrf54l15/cpuapp` 默认的的设备树配置里刚好有一个符合条件的 Flash，并且被使能了。见`v3.4.0/zephyr/boards/nordic/nrf54l15dk/nrf54l_05_10_15_cpuapp_common.dtsi`
 
 ```DTS
 &spi00 {
@@ -273,13 +277,14 @@ menuconfig SPI_NOR
 };
 ```
 
-所以 `CONFIG_SPI_NOR `会根据 `CONFIG_FLASH=y`自动打开，并载入`spi_nor.c` 驱动。
+总结一下，逻辑就是：`CONFIG_FLASH=y` + 设备树有`"jedec,spi-nor"`节点被使能，所以 `CONFIG_SPI_NOR` 会自动打开，并载入`spi_nor.c` 驱动。
 
-Zephyr 中其他标准驱动的载入方法也是类似的。
+Zephyr 中其他标准驱动的载入方法也是类似的：首先某个全局驱动开关被打开（`CONFIG_ADC`, `CONFIG_SERIAL`, `CONFIG_SPI`...），然后对应的设备分类下的所有 Kconfig 菜单会根据设备树有无符合的节点，来自动打开对应的驱动文件开关。于是对应的驱动代码文件就参与编译了。
 
-> 对于 `nrf/samples/bluetooth/peripheral_uart` 这个例程来说，蓝牙绑定信息是存储在内部 NVM 的 Settings 分区的。其实并不需要这个外部 Flash。
+> 对于 `nrf/samples/bluetooth/peripheral_uart` 这个例程来说，蓝牙绑定信息是存储在内部 NVM 的 Settings 分区的。
+> 因此，对于 demo 本身来说，其实并不需要这个外部 Flash。这个外部 flash 的驱动被载入了，但是没有应用层使用它。
 >
-> 因此你可以主动关闭这个外部 Flash 驱动，方法是在工程的 `prj.conf`中主动写明：
+> 因此你可以主动关闭这个外部 Flash 驱动来优化固件大小，方法是在工程的 `prj.conf`中主动写明：
 > ```Kconfig
 > CONFIG_SPI_NOR=n
 > ```
@@ -292,18 +297,18 @@ Zephyr 中其他标准驱动的载入方法也是类似的。
 >
 > ```text
 > Memory region         Used Size  Region Size  %age Used
->            FLASH:      233948 B      1524 KB     14.99%
->              RAM:       38852 B       256 KB     14.82%
->         IDT_LIST:           0 B        32 KB      0.00%
+>         FLASH:      233948 B      1524 KB     14.99%
+>           RAM:       38852 B       256 KB     14.82%
+>      IDT_LIST:           0 B        32 KB      0.00%
 > ```
 >
 > 降低到了：
 >
 > ```text
 > Memory region         Used Size  Region Size  %age Used
->            FLASH:      225148 B      1524 KB     14.43%
->              RAM:       38612 B       256 KB     14.73%
->         IDT_LIST:           0 B        32 KB      0.00%
+>         FLASH:      225148 B      1524 KB     14.43%
+>           RAM:       38612 B       256 KB     14.73%
+>      IDT_LIST:           0 B        32 KB      0.00%
 > ```
 
 ## Devicetree 驱动配置
