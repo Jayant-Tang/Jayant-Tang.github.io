@@ -38,13 +38,28 @@ NCS（nRF Connect SDK）是 Nordic 的主 SDK，包含了 BLE、Thread、Zigbee�
 
 > Add-on 的完整列表可以在 [nRF Connect SDK Add-on Index](https://nrfconnect.github.io/ncs-app-index/) 查到。
 
-# 2. Add-on 技术上是什么？
+# 2. Add-ons 在技术上是什么？
 
-Add-on 的本质是一套 west manifest。Add-on 并不是装一个插件这么简单——它本质上是一个独立的 Git 仓库，仓库里有自己的 `west.yml`，里面写死了它兼容的 NCS 版本和各个依赖模块的版本。
+我们知道 NCS 是一组 git 仓库的集合，其中，主仓库（manifest）是 [sdk-nrf](https://github.com/nrfconnect/sdk-nrf)，也就是 NCS 中的 `nrf/`目录。主仓库的版本就是整个 NCS 的版本。当我们说 NCS v3.4.0 的时候，实际上说的是 `nrf/` 目录下的`v3.4.0`这个 git tag。
 
-当你把 west 的 manifest 指向这个仓库后，`west update` 会把整个工作区里所有仓库的版本都切换到 Add-on 要求的状态。所以安装 Add-on 时"会连 NCS 一起拉"是正常的，不是多此一举。
+[sdk-nrf](https://github.com/nrfconnect/sdk-nrf)仓库下的 `west.yml` 记录了 这个 workspace 中需要的其他仓库的版本。当你执行 `west update` 的时候，实际上就是根据 `west.yml`拉取全部其他仓库的对应版本。
+
+![image-20260828150700771](/imgs/nRF Connect SDK Add-ons介绍与国内安装实践.assets/image-20260828150700771.png)
+
+**所谓的 Add-ons，就是一个独立的 NCS 应用程序或扩展库**。把这个独立的仓库当作 manifest，这个仓库内的 `west.yml` 中记录了自己需要的 [sdk-nrf](https://github.com/nrfconnect/sdk-nrf) 的版本。
+
+比如 Serial Modem 这个应用程序，它的 v1.0.1版本就需要 NCS v3.2.4。
+
+![image-20260828150851845](/imgs/nRF Connect SDK Add-ons介绍与国内安装实践.assets/image-20260828150851845.png)
+
+当你把 ncs-serial-modem 当作主仓库（manifest）时。你只需执行`west update`，就会自动安装 sdk-nrf v3.2.4，并且进一步，由于 sdk-nrf 中也有 `west.yml`，就会进一步安装整个 NCS v3.2.4。
 
 正因为如此，建议**每个 Add-on 单独对应一套工作区**，不要在同一个目录里频繁来回切 manifest，否则仓库状态很容易混乱。
+
+> 注意，某些仓库在 GitHub 是私有仓库，需要向相关公司申请才能获得访问权限。比如 ANT+ 仓库就需要向 Garmin 公司申请。
+> ![image-20260422105616904](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefinedc0f20585ef0f177d3913fb6cde903757.png)
+>
+> 在 [Thisisant](https://www.thisisant.com/) 网站上注册账号后，访问[此页面](https://www.thisisant.com/developer/ant/nrf-connect-sdk/)来申请仓库权限。
 
 # 3. 标准安装方式
 
@@ -75,8 +90,26 @@ west update
 
 不同 Add-on 的仓库地址和版本号不同，以各自的官方文档和 `west.yml` 为准。
 
-> 注意，某些仓库在 GitHub 是私有仓库，需要向相关公司申请才能获得访问权限。
-> ![image-20260422105616904](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefinedc0f20585ef0f177d3913fb6cde903757.png)
+> 【注意】
+>
+> 1. `west init` 本质上和 `git clone`是一样的，只不过多创建了一个`.west/`隐藏文件夹。如果，`west init`这一步失败了，要把仓库和`.west/`都删掉才能重试。
+>
+> 2. 如果仓库的 `west.yml`中记录了仓库下载后对应的目录名称，则 `west init` 时会自动重命名文件夹。比如 [sdk-edge-ai](https://github.com/nrfconnect/sdk-edge-ai) 这个仓库的 `west.yml` 中，有：
+>    ```yml
+>    manifest:
+>    	self:
+>       		path: edge-ai
+>    ```
+>
+>    那么，下载之后这个仓库的目录名称就是`edge-ai`，而不是`sdk-edge-ai`。
+>
+>    相当于 `git clone` 增加了目录名的参数：
+>
+>    ```bash
+>    git clone -b v2.0.0 https://github.com/nrfconnect/sdk-edge-ai edge-ai
+>    ```
+>
+>    反之，如果 `west.yml` 中没有 `path` 这个参数，则不需要重命名，会直接用仓库名作为目录名。
 
 # 4. 国内网络下的增量安装方案
 
@@ -106,6 +139,8 @@ base = zephyr
 
 我们只需要把 manifest 切换成`https://github.com/nrfconnect/sdk-edge-ai`，再更新west工作区，即可增量拉取：
 
+> 如果`west.yml`中没有`self.path`这个参数，则 `git clone` 时无需重命名目录名。
+
 ```bash
 ## 打开工具链环境
 # Windows
@@ -126,14 +161,14 @@ west update
 
 完成后建议把这个工作区重命名，比如 `edge-ai-sdk`，和纯 NCS 目录区分开。
 
-切回标准 NCS 只需要把 manifest 改回来：
-
-```bash
-west config manifest.path nrf
-west update
-```
-
-> 验证当前 manifest 指向：
+> 如果之后想切回标准 NCS， 只需要把 manifest 改回来：
+>
+> ```
+> west config manifest.path nrf
+> west update
+> ```
+>
+> 如何验证当前 manifest 指向？执行：
 >
 > ```bash
 > west config manifest.path
