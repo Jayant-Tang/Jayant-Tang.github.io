@@ -4,8 +4,8 @@ typora-root-url: ./..
 typora-copy-images-to: ../../source/imgs/${filename}.assets/
 cnblogs:
   postType: Article
-  postId: null
-  url: null
+  postId: '22779257'
+  url: https://www.cnblogs.com/jayant97/articles/22779257
 date: 2026-08-31 16:02:36
 cover: null
 tags:
