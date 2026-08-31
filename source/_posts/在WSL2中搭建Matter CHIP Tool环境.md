@@ -79,7 +79,7 @@ cnblogs:
 
 > 编译[Thread: Co-processor](https://docs.nordicsemi.com/bundle/ncs-latest/page/nrf/samples/openthread/coprocessor/README.html)固件：`v3.1.0\nrf\samples\openthread\coprocessor`
 >
-> 编译得到的app固件路径：`build\hci_usb\zephyr\zephyr.hex`
+> 编译得到的app固件路径：`build\coprocessor\zephyr\zephyr.hex`
 
 也可以用我编译好的：
 

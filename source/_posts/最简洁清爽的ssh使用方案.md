@@ -15,9 +15,9 @@ cnblogs:
   postType: Article
 ---
 
-# 1. 前言
+> 2022-12-10 文章备份
 
-​	今天把最方便的ssh使用方式分享给大家。先放一个**演示效果**如下：
+# 1. 效果演示
 
 （1）在Linux shell终端，或者Windows Git Bash中，直接输入`ssh <主机名>`，就可`ssh`连接到指定主机，无需输入密码.
 
@@ -30,7 +30,7 @@ cnblogs:
 
 ​	![image-20221214193918641](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined4a667eb43975102a0959af2d6b39753e.png)
 
-> 注：我的远程主机是OpenWrt，没安装sftp，所以这里`scp`要加`-O`参数。一般支持sftp的可以不加`-O`参数。
+> 注：这里的远程主机是 OpenWrt，没安装sftp，所以这里`scp`要加`-O`参数。一般支持sftp的可以不加`-O`参数。
 
 （3）VS Code Remote，直接选择远程主机，无需密码
 
