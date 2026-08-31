@@ -4,8 +4,8 @@ typora-root-url: ./..
 typora-copy-images-to: ../../source/imgs/${filename}.assets/
 cnblogs:
   postType: Article
-  postId: '22779257'
-  url: https://www.cnblogs.com/jayant97/articles/22779257
+  postId: null
+  url: null
 date: 2026-08-31 16:02:36
 cover: null
 tags:
@@ -48,14 +48,14 @@ NCS/Zephyr 编译过程中会生成、读取和删除大量文件。Windows Defe
 添加排除项通常需要管理员权限。
 
 1. 打开“开始”菜单，搜索并打开“Windows 安全中心”。
-   ![image-20260831160736319](/_posts/在Windows上加速NCS-Zephyr编译.assets/image-20260831160736319.png)
+   ![image-20260831160736319](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined43de91367ef53e0de518f5aca65abc59.png)
 2. 进入“病毒和威胁防护”。
 3. 在“病毒和威胁防护设置”下点击“管理设置”。
-   ![image-20260831160801103](/_posts/在Windows上加速NCS-Zephyr编译.assets/image-20260831160801103.png)
+   ![image-20260831160801103](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined4de4153985e510b06aa71b3500812d0b.png)
 4. 找到“排除项”，点击“添加或删除排除项”。
-   ![image-20260831160836097](/_posts/在Windows上加速NCS-Zephyr编译.assets/image-20260831160836097.png)
+   ![image-20260831160836097](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined806954ffa1c113224b23d4f19dcfd888.png)
 5. 点击“添加排除项” → “文件夹”。
-   ![image-20260831160902357](/_posts/在Windows上加速NCS-Zephyr编译.assets/image-20260831160902357.png)
+   ![image-20260831160902357](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined4105d87f226f666bb23352a56bfea9d3.png)
 6. 选择需要排除的、可信的 NCS/Zephyr 工作目录。
 7. 如果需要排除多个目录，逐个添加，不要直接选择磁盘根目录。
 
@@ -109,11 +109,11 @@ Dev Drive 和普通 ReFS 卷不是一回事：
 
 1. 备份重要数据。
 2. 打开“设置” → “系统” → “存储”。
-   ![image-20260831162225065](/imgs/在Windows上加速NCS-Zephyr编译.assets/image-20260831162225065.png)
+   ![image-20260831162225065](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined2330b61d7de1e851c5177acc392cdb4f.png)
 3. 进入“高级存储设置” → “磁盘和卷”。
-   ![image-20260831162245212](/imgs/在Windows上加速NCS-Zephyr编译.assets/image-20260831162245212.png)
+   ![image-20260831162245212](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefinedfb815394b0482647b29b0debb94eed44.png)
 4. 点击“创建 Dev Drive”。
-   ![image-20260831162259705](/imgs/在Windows上加速NCS-Zephyr编译.assets/image-20260831162259705.png)
+   ![image-20260831162259705](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefinedcab72706866e22cb20db743b1326f3b3.png)
 5. 根据向导选择未分配空间，或创建一个用于开发的 VHD/VHDX。
 6. 设置卷大小、盘符和卷标，例如 `E:` 。
 7. 完成向导，系统会使用 ReFS 创建并登记这个 Dev Drive。
@@ -162,7 +162,7 @@ nrfutil sdk-manager config install-dir set "D:\ncs"
 
 VS Code 设置方法：
 
-![image-20260727153312403](/imgs/在Windows上加速NCS-Zephyr编译.assets/undefined9b8030e61b3f07d61c76fe2c7ea8b6a8.png)
+![image-20260727153312403](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined9b8030e61b3f07d61c76fe2c7ea8b6a8.png)
 
 更改后，你可以把原来的 `ncs/downloads` 拷贝过去，里面有压缩包。然后执行重新安装，安装时检查到本地有现成的文件，就会跳过下载，直接解压。
 
