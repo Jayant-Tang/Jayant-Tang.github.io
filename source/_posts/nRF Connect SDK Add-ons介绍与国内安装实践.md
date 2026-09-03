@@ -44,13 +44,13 @@ NCS（nRF Connect SDK）是 Nordic 的主 SDK，包含了 BLE、Thread、Zigbee�
 
 [sdk-nrf](https://github.com/nrfconnect/sdk-nrf)仓库下的 `west.yml` 记录了 这个 workspace 中需要的其他仓库的版本。当你执行 `west update` 的时候，实际上就是根据 `west.yml`拉取全部其他仓库的对应版本。
 
-![image-20260828150700771](/imgs/nRF Connect SDK Add-ons介绍与国内安装实践.assets/image-20260828150700771.png)
+![image-20260828150700771](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined11b83020d7002636b06f8eead33b744f.png)
 
 **所谓的 Add-ons，就是一个独立的 NCS 应用程序或扩展库**。把这个独立的仓库当作 manifest，这个仓库内的 `west.yml` 中记录了自己需要的 [sdk-nrf](https://github.com/nrfconnect/sdk-nrf) 的版本。
 
 比如 Serial Modem 这个应用程序，它的 v1.0.1版本就需要 NCS v3.2.4。
 
-![image-20260828150851845](/imgs/nRF Connect SDK Add-ons介绍与国内安装实践.assets/image-20260828150851845.png)
+![image-20260828150851845](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefinedff38a0ffc456fc633c8b0c3bb1239300.png)
 
 当你把 ncs-serial-modem 当作主仓库（manifest）时。你只需执行`west update`，就会自动安装 sdk-nrf v3.2.4，并且进一步，由于 sdk-nrf 中也有 `west.yml`，就会进一步安装整个 NCS v3.2.4。
 
