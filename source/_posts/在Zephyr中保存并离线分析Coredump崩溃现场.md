@@ -3,13 +3,17 @@ title: 在Zephyr中保存并离线分析Coredump崩溃现场
 typora-root-url: ./..
 typora-copy-images-to: ../../source/imgs/${filename}.assets/
 date: 2026-09-21 13:36:00
-cover:
+cover: null
 tags:
-  - Nordic
-  - Zephyr
-  - NCS
-  - Coredump
+- Nordic
+- Zephyr
+- NCS
+- Coredump
 categories: Zephyr
+cnblogs:
+  postId: '23076680'
+  url: https://www.cnblogs.com/jayant97/articles/23076680
+  postType: Article
 ---
 
 设备在客户现场崩溃，串口日志早就丢了，这是嵌入式开发最头疼的场景之一。Zephyr 自带的 Coredump 子系统可以在崩溃瞬间把寄存器和栈内容保存下来，如果再把 dump 写进 Flash 分区，设备重启后就能把完整的崩溃现场读出来，离线还原出寄存器值和带行号的完整调用栈。
