@@ -27,14 +27,24 @@ NCS（nRF Connect SDK）是 Nordic 的主 SDK，包含了 BLE、Thread、Zigbee�
 
 ![image-20260422104000857](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefined5b2eb49e09be0239b9f9591393f79d73.png)
 
-目前已有的 Add-on 包括：
+常用的 Nordic 官方 Add-on 包括：
 
 - **Edge AI Add-on**：手势识别、异常检测等 ML 推理框架与参考应用
-- **Amazon Sidewalk Add-on**：Amazon 的低功耗广域 IoT 协议
-- **Zigbee R23 Add-on**：Zigbee 3.0 R23 协议栈
-- **Serial Modem Add-on**：蜂窝模组的串口 AT 命令固件框架
+- **Matter**：Matter 以前是标准 NCS 的一部分，从 NCS v3.5.0 开始将独立出来。含 Matter 模板、灯泡、窗帘等示例工程。不含门锁，门锁较复杂，独立到 Door Lock and Access Control Add-on.
+- **Door Lock and Access Control**：独立的 Matter / Aliro 门锁例程。
+- **KNX IoT**：KNX 协议支持
+- **Serial Modem Add-on**：从曾经的 Serial LTE Modem（SLM）演化而来，有较大改动。也就是`nrf/samples/application/serial_lte_modem`。蜂窝模组的串口 AT 命令固件框架，含 socket(TCP/UDP)、MQTT、SMS、GNSS、ICMP、PPP、FOTA/DFU、nRF Cloud、LwM2M Carrier 等自定义 `AT#` 指令族。
+- **Serial Modem Host Applications**：Serial Modem 的 Host 示例，可以放在 nRF54 等 BLE SoC上，用来控制蜂窝 SiP
+- **Asset Tracker Template**：资产追踪定位器工程模板
+- ...
 
-![image-20260422104117669](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefinedccd349953c690bccf13e523a15eeedf3.png)
+第三方的有：
+
+- **ANT Wireless SDK**：佳明（Garmin）公司的运动骑行领域的短距离无线协议，适用于传感器、码表等。
+- **Hubble Device SDK**：融合了卫星网络和蓝牙定位的 SDK。其中蓝牙定位依赖附近的 Hubble 地面基站上传。
+- ...
+
+![image-20260924144312115](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefinede39a5fc8d2ed1be7d23a133d1820854d.png)
 
 > Add-on 的完整列表可以在 [nRF Connect SDK Add-on Index](https://nrfconnect.github.io/ncs-app-index/) 查到。
 
@@ -56,10 +66,9 @@ NCS（nRF Connect SDK）是 Nordic 的主 SDK，包含了 BLE、Thread、Zigbee�
 
 正因为如此，建议**每个 Add-on 单独对应一套工作区**，不要在同一个目录里频繁来回切 manifest，否则仓库状态很容易混乱。
 
-> 注意，某些仓库在 GitHub 是私有仓库，需要向相关公司申请才能获得访问权限。比如 ANT+ 仓库就需要向 Garmin 公司申请。
-> ![image-20260422105616904](https://jayant-blog-imgs.oss-cn-hangzhou.aliyuncs.com/undefinedc0f20585ef0f177d3913fb6cde903757.png)
+> 注意，某些仓库在 GitHub 是私有仓库，需要向相关公司申请才能获得访问权限。
 >
-> 在 [Thisisant](https://www.thisisant.com/) 网站上注册账号后，访问[此页面](https://www.thisisant.com/developer/ant/nrf-connect-sdk/)来申请仓库权限。
+> 不过，像 ANT 仓库之前是私有仓库，现在（2026-09-16之后）已经变成公开仓库。不再需要在 [Thisisant](https://www.thisisant.com/) 网站上向 Garmin 公司申请。
 
 # 3. 标准安装方式
 
