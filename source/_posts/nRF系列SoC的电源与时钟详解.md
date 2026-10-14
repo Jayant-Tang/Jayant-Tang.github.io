@@ -15,8 +15,8 @@ categories:
 published: true
 cnblogs:
   postType: Article
-  postId:
-  url:
+  postId: '23302465'
+  url: https://www.cnblogs.com/jayant97/articles/23302465
 ---
 
 # 1. 概览
